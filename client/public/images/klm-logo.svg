@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#00A1DE"/>
+  <text x="32" y="38" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="white">KLM</text>
+  <path d="M18 44h28" stroke="white" stroke-width="2"/>
+  <path d="M28 18l4-4 4 4-2 1v5h-4v-5l-2-1z" fill="white" opacity="0.7"/>
+</svg>
