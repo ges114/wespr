@@ -1,0 +1,62 @@
+[
+  {
+    "label": "Betalen",
+    "x": 28,
+    "y": 12
+  },
+  {
+    "label": "Gezondheid",
+    "x": 78,
+    "y": 8
+  },
+  {
+    "label": "Vervoer",
+    "x": 51,
+    "y": 21
+  },
+  {
+    "label": "Berichten",
+    "x": 57,
+    "y": 95
+  },
+  {
+    "label": "Services",
+    "x": 9,
+    "y": 29
+  },
+  {
+    "label": "Wallet",
+    "x": 84,
+    "y": 57
+  },
+  {
+    "label": "Overheid",
+    "x": 4,
+    "y": 42
+  },
+  {
+    "label": "Winkelen",
+    "x": 65,
+    "y": 75
+  },
+  {
+    "label": "Welzijn",
+    "x": 35,
+    "y": 59
+  },
+  {
+    "label": "Entertainment",
+    "x": 91,
+    "y": 31
+  },
+  {
+    "label": "Games",
+    "x": 60,
+    "y": 47
+  },
+  {
+    "label": "Energie",
+    "x": 31,
+    "y": 85
+  }
+]
