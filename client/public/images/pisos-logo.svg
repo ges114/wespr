@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#0066CC"/>
+  <path d="M35 68 L60 40 L85 68" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="43" y="58" width="34" height="22" rx="2" stroke="white" stroke-width="3" fill="none"/>
+  <rect x="52" y="66" width="16" height="14" rx="1" fill="white" opacity="0.3"/>
+  <line x1="60" y1="66" x2="60" y2="80" stroke="white" stroke-width="2"/>
+  <text x="60" y="100" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="11" dominant-baseline="central">pisos.com</text>
+</svg>
