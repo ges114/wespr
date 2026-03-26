@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#0F2B46"/>
+  <circle cx="60" cy="52" r="24" fill="none" stroke="#00B4D8" stroke-width="3.5"/>
+  <circle cx="60" cy="52" r="14" fill="none" stroke="#00B4D8" stroke-width="3"/>
+  <circle cx="60" cy="52" r="5" fill="#00B4D8"/>
+  <line x1="36" y1="52" x2="84" y2="52" stroke="#00B4D8" stroke-width="2" opacity="0.5"/>
+  <path d="M60 28 Q72 40 60 52 Q48 64 60 76" stroke="#00B4D8" stroke-width="2" fill="none" opacity="0.5"/>
+  <text x="60" y="95" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="14">DeepL</text>
+</svg>
