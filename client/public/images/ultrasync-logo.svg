@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#2D3436"/>
+  <path d="M40 70 L40 45 Q40 35 50 35 L70 35 Q80 35 80 45 L80 70" stroke="#00B894" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="60" cy="75" r="8" stroke="#00B894" stroke-width="3" fill="none"/>
+  <circle cx="60" cy="75" r="3" fill="#00B894"/>
+  <text x="60" y="105" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="9" dominant-baseline="central">UltraSync+</text>
+</svg>
