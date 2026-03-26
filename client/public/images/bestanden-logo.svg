@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#007AFF"/>
+  <path d="M35 40 L35 85 Q35 90 40 90 L80 90 Q85 90 85 85 L85 50 L70 35 L40 35 Q35 35 35 40Z" fill="white" opacity="0.9"/>
+  <path d="M70 35 L70 50 L85 50" fill="none" stroke="white" stroke-width="2" opacity="0.6"/>
+  <rect x="45" y="55" width="30" height="3" rx="1" fill="#007AFF" opacity="0.4"/>
+  <rect x="45" y="62" width="25" height="3" rx="1" fill="#007AFF" opacity="0.4"/>
+  <rect x="45" y="69" width="28" height="3" rx="1" fill="#007AFF" opacity="0.4"/>
+  <rect x="45" y="76" width="20" height="3" rx="1" fill="#007AFF" opacity="0.4"/>
+  <text x="60" y="108" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="9" dominant-baseline="central">Bestanden</text>
+</svg>
