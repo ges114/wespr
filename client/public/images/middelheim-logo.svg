@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#2E7D32"/>
+  <circle cx="60" cy="50" r="10" stroke="white" stroke-width="3" fill="none"/>
+  <rect x="57" y="60" width="6" height="18" rx="2" fill="white"/>
+  <path d="M35 70 Q60 50 85 70" stroke="white" stroke-width="2" fill="none" opacity="0.5"/>
+  <text x="60" y="98" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="9" dominant-baseline="central">Middelheim</text>
+</svg>
