@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#0061FF"/>
+  <rect x="42" y="38" width="36" height="44" rx="6" stroke="white" stroke-width="4" fill="none"/>
+  <circle cx="60" cy="56" r="7" stroke="white" stroke-width="3" fill="none"/>
+  <rect x="57" y="62" width="6" height="10" rx="2" fill="white"/>
+  <path d="M60 28 Q45 28 45 38" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M60 28 Q75 28 75 38" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <text x="60" y="100" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="11" dominant-baseline="central">Keeper</text>
+</svg>
