@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#F37021"/>
+  <circle cx="32" cy="26" r="10" fill="white" opacity="0.9"/>
+  <path d="M28 26l6-8v6h4l-6 8v-6h-4z" fill="#F37021"/>
+  <text x="32" y="50" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="bold" fill="white">CORENDON</text>
+</svg>
