@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#1DBF73"/>
+  <path d="M40 65 L60 42 L80 65" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="46" y="57" width="28" height="20" rx="2" stroke="white" stroke-width="3" fill="none"/>
+  <rect x="55" y="65" width="10" height="12" rx="1" fill="white" opacity="0.8"/>
+  <text x="60" y="100" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="11" dominant-baseline="central">idealista</text>
+</svg>
