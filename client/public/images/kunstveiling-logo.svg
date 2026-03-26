@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#2C3E50"/>
+  <rect x="35" y="35" width="50" height="40" rx="3" stroke="white" stroke-width="3" fill="none"/>
+  <circle cx="52" cy="52" r="6" stroke="white" stroke-width="2" fill="none"/>
+  <path d="M45 68 L55 58 L65 65 L75 52 L85 68" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="60" y="96" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="8" dominant-baseline="central">kunstveiling.nl</text>
+</svg>
