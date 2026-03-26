@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#FF8C00"/>
+  <circle cx="60" cy="48" r="16" fill="white" opacity="0.9"/>
+  <line x1="60" y1="26" x2="60" y2="20" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <line x1="60" y1="70" x2="60" y2="76" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <line x1="38" y1="48" x2="32" y2="48" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <line x1="82" y1="48" x2="88" y2="48" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <line x1="44" y1="32" x2="40" y2="28" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <line x1="76" y1="32" x2="80" y2="28" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <line x1="44" y1="64" x2="40" y2="68" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <line x1="76" y1="64" x2="80" y2="68" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <text x="60" y="98" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="12" dominant-baseline="central">Weer.nl</text>
+</svg>
