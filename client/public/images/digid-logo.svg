@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="20" fill="#E17000"/>
+  <text x="50" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="18" fill="white">Digi</text>
+  <text x="50" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="22" fill="white">D</text>
+  <rect x="20" y="75" width="60" height="4" rx="2" fill="white" opacity="0.6"/>
+</svg>
