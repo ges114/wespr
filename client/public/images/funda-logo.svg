@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#F7A100"/>
+  <path d="M45 70 L60 45 L75 70 Z" stroke="white" stroke-width="3" fill="none" stroke-linejoin="round"/>
+  <rect x="55" y="58" width="10" height="12" rx="1" fill="white" opacity="0.8"/>
+  <text x="60" y="95" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="14" dominant-baseline="central">funda</text>
+</svg>
