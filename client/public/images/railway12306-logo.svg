@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#1E50A2"/>
+  <text x="60" y="45" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="24" dominant-baseline="central">12306</text>
+  <line x1="25" y1="62" x2="95" y2="62" stroke="white" stroke-width="2" opacity="0.5"/>
+  <text x="60" y="80" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="10" opacity="0.8">铁路出行</text>
+  <path d="M30 95 L50 88 L70 92 L90 85" stroke="white" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
+</svg>
