@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#1A237E"/>
+  <rect x="38" y="32" width="44" height="50" rx="3" stroke="white" stroke-width="3" fill="none"/>
+  <rect x="44" y="38" width="32" height="8" rx="1" fill="white" opacity="0.3"/>
+  <rect x="44" y="50" width="32" height="2" rx="1" fill="white" opacity="0.5"/>
+  <rect x="44" y="56" width="28" height="2" rx="1" fill="white" opacity="0.5"/>
+  <rect x="44" y="62" width="32" height="2" rx="1" fill="white" opacity="0.5"/>
+  <rect x="44" y="68" width="20" height="2" rx="1" fill="white" opacity="0.5"/>
+  <text x="60" y="100" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="7" dominant-baseline="central">Museumtijdschrift</text>
+</svg>
