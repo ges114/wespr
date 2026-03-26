@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#FFD700"/>
+  <circle cx="22" cy="40" r="8" stroke="#003082" stroke-width="2.5" fill="none"/>
+  <circle cx="42" cy="40" r="8" stroke="#003082" stroke-width="2.5" fill="none"/>
+  <path d="M22 40l6-13h8l4 13" stroke="#003082" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="22" cy="40" r="1.5" fill="#003082"/>
+  <circle cx="42" cy="40" r="1.5" fill="#003082"/>
+  <text x="32" y="18" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="bold" fill="#003082">OV</text>
+</svg>
