@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="20" fill="#154273"/>
+  <path d="M50 25 L70 40 L70 65 L30 65 L30 40 Z" fill="none" stroke="white" stroke-width="3"/>
+  <rect x="43" y="48" width="14" height="17" fill="white" rx="1"/>
+  <text x="50" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="10" fill="white">MijnOverheid</text>
+</svg>
