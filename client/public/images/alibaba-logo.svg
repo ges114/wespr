@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#FF6A00"/>
+  <text x="60" y="50" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="14" dominant-baseline="central">alibaba</text>
+  <text x="60" y="72" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="11" opacity="0.8" dominant-baseline="central">.com</text>
+  <circle cx="60" cy="92" r="6" fill="none" stroke="white" stroke-width="2" opacity="0.6"/>
+  <path d="M57 92 Q60 88 63 92" stroke="white" stroke-width="1.5" fill="none" opacity="0.6"/>
+</svg>
