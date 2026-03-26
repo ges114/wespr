@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#D83B01"/>
+  <rect x="30" y="28" width="60" height="64" rx="6" fill="white" opacity="0.9"/>
+  <rect x="35" y="35" width="20" height="6" rx="1" fill="#185ABD"/>
+  <rect x="35" y="45" width="50" height="4" rx="1" fill="#D83B01" opacity="0.3"/>
+  <rect x="35" y="53" width="50" height="4" rx="1" fill="#107C41" opacity="0.3"/>
+  <rect x="35" y="61" width="50" height="4" rx="1" fill="#185ABD" opacity="0.3"/>
+  <rect x="35" y="69" width="35" height="4" rx="1" fill="#D83B01" opacity="0.3"/>
+  <rect x="35" y="77" width="45" height="4" rx="1" fill="#107C41" opacity="0.3"/>
+  <text x="60" y="108" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="10" dominant-baseline="central">Office</text>
+</svg>
