@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#FF5A5F"/>
+  <circle cx="60" cy="50" r="16" stroke="white" stroke-width="3" fill="none"/>
+  <line x1="60" y1="42" x2="60" y2="50" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="60" y1="50" x2="68" y2="54" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="60" cy="50" r="2" fill="white"/>
+  <path d="M42 72 L60 65 L78 72" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <text x="60" y="96" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="8" dominant-baseline="central">Time to Momo</text>
+</svg>
