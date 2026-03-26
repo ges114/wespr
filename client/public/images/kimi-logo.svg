@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="24" fill="#6C5CE7"/>
+  <circle cx="60" cy="42" r="18" fill="white" opacity="0.9"/>
+  <circle cx="60" cy="42" r="10" fill="#6C5CE7"/>
+  <circle cx="60" cy="42" r="5" fill="white"/>
+  <path d="M30 75 Q60 95 90 75" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M35 85 Q60 100 85 85" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <text x="60" y="110" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="bold" font-size="14" opacity="0.7">KIMI</text>
+</svg>
