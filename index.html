@@ -1,17 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>W€spr - Marketing Website</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/assets/index-QARpNd2Q.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BX3X-mpR.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>W€spr</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0a0a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: sans-serif;
+      flex-direction: column;
+    }
+    h2 { color: #fff; margin-bottom: 1rem; }
+    input {
+      padding: .7rem 1rem; border-radius: 8px; border: none;
+      font-size: 1rem; margin-bottom: .8rem; width: 260px; display: block;
+    }
+    button {
+      padding: .7rem 2rem; background: #6c63ff; color: white;
+      border: none; border-radius: 8px; font-size: 1rem;
+      cursor: pointer; width: 100%;
+    }
+    #fout { color: #ff6b6b; margin-top: .5rem; display: none; }
+  </style>
+</head>
+<body>
+  <h2>🔒 W€spr — Besloten toegang</h2>
+  <input type="password" id="ww" placeholder="Wachtwoord" />
+  <button onclick="check()">Inloggen</button>
+  <p id="fout">Onjuist wachtwoord, probeer opnieuw.</p>
+  <script>
+    if (sessionStorage.getItem('wespr_auth') === 'ok') {
+      window.location.href = 'main.html';
+    }
+    document.getElementById('ww').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') check();
+    });
+    function check() {
+      if (document.getElementById('ww').value === 'Wespreken2026') {
+        sessionStorage.setItem('wespr_auth', 'ok');
+        window.location.href = 'main.html';
+      } else {
+        document.getElementById('fout').style.display = 'block';
+      }
+    }
+  </script>
+</body>
 </html>
