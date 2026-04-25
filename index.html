@@ -1,1121 +1,309 @@
 
+Copy
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>W€spr — European Identity & Payments Infrastructure</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #080c12;
-    --surface: #0e1420;
-    --border: rgba(255,255,255,0.07);
-    --gold: #c9a84c;
-    --gold-light: #e4c97a;
-    --text: #e8e4db;
-    --muted: #7a7e8a;
-    --euro: #3a6bc7;
-    --euro-light: #5b8de8;
-  }
  
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
-  html { scroll-behavior: smooth; }
- 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
- 
-  /* ── NOISE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.5;
-  }
- 
-  /* ── GRID LINES ── */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-    background-size: 80px 80px;
-    pointer-events: none;
-    z-index: 0;
-  }
- 
-  /* ── CERTIFICATE SPLASH ── */
-  #certificate {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #060a10;
-    padding: 24px;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-  }
-  #certificate.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-  .cert-frame {
-    width: 100%; max-width: 560px;
-    border: 1px solid rgba(201,168,76,0.25);
-    border-radius: 8px;
-    background: linear-gradient(160deg, #0b1220 0%, #080c18 60%, #0a0f1a 100%);
-    padding: 52px 48px 40px;
-    position: relative;
-    box-shadow: 0 0 80px rgba(58,107,199,0.08), inset 0 0 60px rgba(201,168,76,0.03);
-  }
-  .cert-frame::before { content: ""; position: absolute; inset: 6px; border: 1px solid rgba(201,168,76,0.08); border-radius: 5px; pointer-events: none; }
-  .cert-top-tag { text-align: center; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; display: flex; align-items: center; gap: 14px; justify-content: center; }
-  .cert-top-tag::before, .cert-top-tag::after { content: ""; flex: 1; max-width: 60px; height: 1px; background: rgba(201,168,76,0.2); }
-  .cert-logo { text-align: center; font-family: "Cormorant Garamond", serif; font-size: 58px; font-weight: 400; line-height: 1; margin-bottom: 10px; color: var(--text); }
-  .cert-logo span { color: var(--gold); }
-  .cert-tagline { text-align: center; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; }
-  .cert-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 28px; color: var(--gold); font-size: 10px; opacity: 0.5; }
-  .cert-divider::before, .cert-divider::after { content: ""; width: 80px; height: 1px; background: rgba(201,168,76,0.3); }
-  .cert-subtitle { text-align: center; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
-  .cert-body { text-align: center; font-family: "Cormorant Garamond", serif; font-size: 22px; font-weight: 300; line-height: 1.6; color: var(--text); margin-bottom: 32px; }
-  .cert-body .hl-gold { color: var(--gold); }
-  .cert-body .hl-blue { color: var(--euro-light); }
-  .cert-body .hl-italic { font-style: italic; color: var(--euro-light); }
-  .cert-badges { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
-  .cert-badge { border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; padding: 14px 10px; text-align: center; }
-  .cert-badge-label { font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .cert-badge-val { font-family: "Cormorant Garamond", serif; font-size: 16px; color: var(--gold); }
-  .cert-enter-btn { width: 100%; padding: 14px; background: transparent; border: 1px solid var(--gold); color: var(--gold); font-family: "DM Sans", sans-serif; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; border-radius: 3px; cursor: pointer; transition: all 0.2s; margin-bottom: 24px; }
-  .cert-enter-btn:hover { background: var(--gold); color: var(--bg); }
-  .cert-footer { text-align: center; font-size: 11px; color: var(--muted); line-height: 1.8; }
-  .cert-footer a { color: var(--euro-light); text-decoration: none; }
-  .cert-footer-bottom { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(201,168,76,0.4); display: flex; justify-content: center; gap: 20px; }
- 
-  .cert-enter-btn { width: 100%; padding: 16px; background: transparent; border: 1px solid var(--gold); color: var(--gold); font-family: "DM Sans", sans-serif; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; border-radius: 3px; cursor: pointer; transition: all 0.2s; margin-bottom: 24px; }
-  .cert-enter-btn:hover { background: var(--gold); color: var(--bg); }
- 
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 22px 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    background: rgba(8, 12, 18, 0.85);
-    backdrop-filter: blur(16px);
-  }
- 
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--text);
-    text-decoration: none;
-  }
- 
-  .nav-logo span { color: var(--euro-light); }
- 
-  .nav-links {
-    display: flex;
-    gap: 36px;
-    list-style: none;
-  }
- 
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
- 
-  .nav-links a:hover { color: var(--text); }
- 
-  .nav-demo {
-    padding: 9px 22px;
-    background: rgba(58, 107, 199, 0.12) !important;
-    border: 1px solid rgba(91, 141, 232, 0.4) !important;
-    color: var(--blue-light) !important;
-    border-radius: 2px;
-    font-size: 12px !important;
-    letter-spacing: 0.1em !important;
-    transition: all 0.2s !important;
-  }
- 
-  .nav-demo:hover {
-    background: rgba(58, 107, 199, 0.25) !important;
-    color: #fff !important;
-  }
- 
- 
-    padding: 9px 22px;
-    border: 1px solid var(--gold);
-    color: var(--gold) !important;
-    border-radius: 2px;
-    font-size: 12px !important;
-    letter-spacing: 0.12em !important;
-    transition: all 0.2s !important;
-  }
- 
-  .nav-cta:hover {
-    background: var(--gold) !important;
-    color: var(--bg) !important;
-  }
- 
-  /* ── SECTIONS ── */
-  section { position: relative; z-index: 1; }
- 
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 60px;
-  }
- 
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 140px 60px 100px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
- 
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--euro-light);
-    border: 1px solid rgba(91, 141, 232, 0.3);
-    padding: 6px 14px;
-    border-radius: 2px;
-    margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.2s forwards;
-  }
- 
-  .hero-tag::before {
-    content: '';
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--euro-light);
-    animation: pulse 2s infinite;
-  }
- 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
- 
-  h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(52px, 7vw, 90px);
-    font-weight: 300;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    max-width: 820px;
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.4s forwards;
-  }
- 
-  h1 em {
-    font-style: normal;
-    color: var(--gold);
-  }
- 
-  .hero-sub {
-    font-size: 17px;
-    color: var(--muted);
-    max-width: 540px;
-    line-height: 1.8;
-    margin-bottom: 52px;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.6s forwards;
-  }
- 
-  .hero-actions {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.8s forwards;
-  }
- 
-  .btn-demo {
-    padding: 14px 32px;
-    background: rgba(58, 107, 199, 0.15);
-    color: var(--blue-light);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    border: 1px solid rgba(91, 141, 232, 0.4);
-    border-radius: 2px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
- 
-  .btn-demo:hover {
-    background: rgba(58, 107, 199, 0.3);
-    color: #fff;
-    border-color: var(--blue-light);
-  }
- 
-  .btn-primary {
-    padding: 14px 32px;
-    background: var(--gold);
-    color: var(--bg);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
- 
-  .btn-primary:hover { background: var(--gold-light); }
- 
-  .btn-secondary {
-    padding: 14px 32px;
-    background: transparent;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
- 
-  .btn-secondary:hover { border-color: rgba(255,255,255,0.2); }
- 
-  .hero-scroll {
-    position: absolute;
-    bottom: 40px;
-    left: 60px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    opacity: 0;
-    animation: fadeIn 1s 1.2s forwards;
-  }
- 
-  .hero-scroll::before {
-    content: '';
-    width: 40px; height: 1px;
-    background: var(--muted);
-  }
- 
-  /* ── STATS BAR ── */
-  #stats {
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 44px 0;
-    background: var(--surface);
-  }
- 
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    divide-x: 1px solid var(--border);
-  }
- 
-  .stat-item {
-    padding: 0 48px;
-    border-right: 1px solid var(--border);
-  }
- 
-  .stat-item:first-child { padding-left: 0; }
-  .stat-item:last-child { border-right: none; }
- 
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 42px;
-    font-weight: 400;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: 6px;
-  }
- 
-  .stat-label {
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
- 
-  /* ── SECTION HEADINGS ── */
-  .section-tag {
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--euro-light);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
- 
-  .section-tag::after {
-    content: '';
-    flex: 1;
-    max-width: 40px;
-    height: 1px;
-    background: var(--euro-light);
-    opacity: 0.4;
-  }
- 
-  h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(36px, 4.5vw, 58px);
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 24px;
-  }
- 
-  /* ── OPPORTUNITY ── */
-  #opportunity {
-    padding: 120px 0;
-  }
- 
-  .opportunity-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
-    align-items: center;
-  }
- 
-  .opportunity-text p {
-    color: var(--muted);
-    font-size: 16px;
-    margin-bottom: 20px;
-    line-height: 1.9;
-  }
- 
-  .opportunity-text p strong {
-    color: var(--text);
-    font-weight: 400;
-  }
- 
-  .opp-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
- 
-  .opp-card {
-    padding: 28px 32px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: var(--surface);
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s;
-  }
- 
-  .opp-card:hover { border-color: rgba(201, 168, 76, 0.3); }
- 
-  .opp-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 100%;
-    background: var(--gold);
-    opacity: 0.6;
-  }
- 
-  .opp-card-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
-    color: var(--gold);
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
-  }
- 
-  .opp-card h3 {
-    font-size: 15px;
-    font-weight: 500;
-    margin-bottom: 6px;
-    letter-spacing: 0.01em;
-  }
- 
-  .opp-card p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-  }
- 
-  /* ── SOLUTION ── */
-  #solution {
-    padding: 120px 0;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
- 
-  .solution-header {
-    max-width: 680px;
-    margin-bottom: 72px;
-  }
- 
-  .solution-header p {
-    color: var(--muted);
-    font-size: 17px;
-    line-height: 1.8;
-  }
- 
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
- 
-  .feature-item {
-    padding: 40px 36px;
-    background: var(--bg);
-    transition: background 0.3s;
-  }
- 
-  .feature-item:hover { background: rgba(14, 20, 32, 0.8); }
- 
-  .feature-icon {
-    width: 42px; height: 42px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    font-size: 18px;
-  }
- 
-  .feature-item h3 {
-    font-size: 15px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    letter-spacing: 0.01em;
-  }
- 
-  .feature-item p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-  }
- 
-  /* ── PILOTS ── */
-  #pilots {
-    padding: 120px 0;
-  }
- 
-  .pilots-header {
-    max-width: 600px;
-    margin-bottom: 64px;
-  }
- 
-  .pilots-header p { color: var(--muted); font-size: 16px; line-height: 1.8; }
- 
-  .pilots-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
- 
-  .pilot-card {
-    padding: 44px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s;
-  }
- 
-  .pilot-card:hover {
-    border-color: rgba(201, 168, 76, 0.25);
-    transform: translateY(-2px);
-  }
- 
-  .pilot-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top right, rgba(201, 168, 76, 0.04), transparent 60%);
-    pointer-events: none;
-  }
- 
-  .pilot-type {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
- 
-  .pilot-type::before {
-    content: '';
-    width: 20px; height: 1px;
-    background: var(--gold);
-  }
- 
-  .pilot-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
-    font-weight: 400;
-    margin-bottom: 16px;
-    line-height: 1.2;
-  }
- 
-  .pilot-card p {
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.8;
-    margin-bottom: 28px;
-  }
- 
-  .pilot-use-cases {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
- 
-  .use-case-tag {
-    font-size: 11px;
-    padding: 5px 12px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-  }
- 
-  /* ── TECHNOLOGY ── */
-  #technology {
-    padding: 120px 0;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
- 
-  .tech-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
-    align-items: start;
-  }
- 
-  .tech-text p {
-    color: var(--muted);
-    font-size: 16px;
-    line-height: 1.9;
-    margin-bottom: 20px;
-  }
- 
-  .tech-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 40px;
-  }
- 
-  .tech-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-  }
- 
-  .tech-item-name {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
- 
-  .tech-item-badge {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 2px;
-  }
- 
-  .badge-core { background: rgba(58, 107, 199, 0.15); color: var(--euro-light); border: 1px solid rgba(58, 107, 199, 0.3); }
-  .badge-reg { background: rgba(201, 168, 76, 0.1); color: var(--gold); border: 1px solid rgba(201, 168, 76, 0.25); }
-  .badge-arch { background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid var(--border); }
- 
-  .arch-diagram {
-    padding: 40px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: var(--bg);
-  }
- 
-  .arch-title {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 32px;
-    text-align: center;
-  }
- 
-  .arch-layers {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
- 
-  .arch-layer {
-    padding: 14px 20px;
-    border-radius: 3px;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
- 
-  .layer-top { background: rgba(58, 107, 199, 0.12); border: 1px solid rgba(58, 107, 199, 0.25); color: var(--euro-light); }
-  .layer-mid { background: rgba(201, 168, 76, 0.08); border: 1px solid rgba(201, 168, 76, 0.2); color: var(--gold-light); }
-  .layer-bot { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--muted); }
- 
-  .layer-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
- 
-  .dot-blue { background: var(--euro-light); }
-  .dot-gold { background: var(--gold); }
-  .dot-grey { background: var(--muted); }
- 
-  .arch-arrow {
-    text-align: center;
-    color: var(--border);
-    font-size: 16px;
-    line-height: 0.5;
-  }
- 
-  /* ── TRACTION ── */
-  #traction {
-    padding: 120px 0;
-  }
- 
-  .traction-header {
-    max-width: 600px;
-    margin-bottom: 64px;
-  }
- 
-  .traction-header p { color: var(--muted); font-size: 16px; line-height: 1.8; }
- 
-  .traction-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
- 
-  .traction-item {
-    padding: 36px 32px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: var(--surface);
-  }
- 
-  .traction-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 48px;
-    font-weight: 300;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
- 
-  .traction-label {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
- 
-  /* ── RAISE ── */
-  #raise {
-    padding: 120px 0;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
- 
-  .raise-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
- 
-  .raise-text h2 { margin-bottom: 20px; }
- 
-  .raise-text p {
-    color: var(--muted);
-    font-size: 16px;
-    line-height: 1.9;
-    margin-bottom: 36px;
-  }
- 
-  .raise-details {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
- 
-  .raise-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    font-size: 14px;
-  }
- 
-  .raise-row-key { color: var(--muted); }
-  .raise-row-val { color: var(--text); font-weight: 500; }
-  .raise-row-val.highlight { color: var(--gold); }
- 
-  .blended-box {
-    padding: 36px;
-    border: 1px solid rgba(201, 168, 76, 0.2);
-    border-radius: 4px;
-    background: rgba(201, 168, 76, 0.04);
-  }
- 
-  .blended-box h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
-    font-weight: 400;
-    margin-bottom: 8px;
-    color: var(--gold);
-  }
- 
-  .blended-box .sub {
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
- 
-  .blended-items {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
- 
-  .blended-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 13px;
-    color: var(--muted);
-  }
- 
-  .blended-item::before {
-    content: '→';
-    color: var(--gold);
-    font-size: 12px;
-  }
- 
-  /* ── TEAM ── */
-  #team {
-    padding: 120px 0;
-  }
- 
-  .team-header {
-    max-width: 580px;
-    margin-bottom: 64px;
-  }
- 
-  .team-header p { color: var(--muted); font-size: 16px; line-height: 1.8; }
- 
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 40px;
-  }
- 
-  .team-card {
-    padding: 36px 32px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    transition: border-color 0.3s;
-  }
- 
-  .team-card:hover { border-color: rgba(255,255,255,0.12); }
- 
-  .team-initials {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: rgba(58, 107, 199, 0.15);
-    border: 1px solid rgba(58, 107, 199, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    color: var(--euro-light);
-    margin-bottom: 20px;
-  }
- 
-  .team-name {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
- 
-  .team-role {
-    font-size: 12px;
-    color: var(--gold);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-  }
- 
-  .team-bio {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-  }
- 
-  .cto-box {
-    padding: 36px 44px;
-    border: 1px dashed rgba(201, 168, 76, 0.3);
-    border-radius: 4px;
-    background: rgba(201, 168, 76, 0.03);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-  }
- 
-  .cto-box-text h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
-    font-weight: 400;
-    margin-bottom: 6px;
-  }
- 
-  .cto-box-text p {
-    font-size: 13px;
-    color: var(--muted);
-    max-width: 500px;
-  }
- 
-  /* ── CONTACT ── */
-  #contact {
-    padding: 120px 0 100px;
-    text-align: center;
-    border-top: 1px solid var(--border);
-  }
- 
-  #contact h2 {
-    margin-bottom: 16px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
- 
-  #contact p {
-    color: var(--muted);
-    font-size: 16px;
-    max-width: 480px;
-    margin: 0 auto 48px;
-    line-height: 1.8;
-  }
- 
-  .contact-actions {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
- 
-  .contact-email {
-    display: inline-block;
-    margin-top: 32px;
-    font-size: 13px;
-    color: var(--muted);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 2px;
-    transition: color 0.2s, border-color 0.2s;
-  }
- 
-  .contact-email:hover { color: var(--text); border-color: var(--muted); }
- 
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 32px 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    z-index: 1;
-  }
- 
-  .footer-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
-    color: var(--muted);
-  }
- 
-  .footer-logo span { color: var(--euro-light); }
- 
-  .footer-copy {
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-  }
- 
-  .footer-links {
-    display: flex;
-    gap: 24px;
-    list-style: none;
-  }
- 
-  .footer-links a {
-    font-size: 12px;
-    color: var(--muted);
-    text-decoration: none;
-    letter-spacing: 0.06em;
-    transition: color 0.2s;
-  }
- 
-  .footer-links a:hover { color: var(--text); }
- 
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
- 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 0.6; }
-  }
- 
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s, transform 0.7s;
-  }
- 
-  .reveal.visible {
-    opacity: 1;
-    transform: none;
-  }
- 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 18px 24px; }
-    .nav-links { display: none; }
-    #hero, .container { padding-left: 24px; padding-right: 24px; }
-    .stats-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-    .stat-item { border-right: none; padding: 0; }
-    .opportunity-layout, .tech-layout, .raise-layout { grid-template-columns: 1fr; gap: 48px; }
-    .features-grid, .traction-grid, .team-grid { grid-template-columns: 1fr; }
-    .pilots-grid { grid-template-columns: 1fr !important; }
-    .cto-box { flex-direction: column; gap: 20px; }
-    footer { flex-direction: column; gap: 20px; text-align: center; padding: 24px; }
-    .hero-scroll { display: none; }
-  }
+/* ═══════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════ */
+:root {
+  --bg:       #0d1117;
+  --surface:  #161b22;
+  --card:     #1c2330;
+  --border:   rgba(255,255,255,0.10);
+  --gold:     #c9a96e;
+  --blue:     #5b8de8;
+  --green:    #3fb950;
+ 
+  /* TEXT — all clearly readable on dark bg */
+  --t1: #ffffff;        /* headings */
+  --t2: #cdd9e5;        /* body */
+  --t3: #8b99a8;        /* labels / captions */
+}
+ 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--t2); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+ 
+/* ═══════════════════════════════════
+   CERTIFICATE
+═══════════════════════════════════ */
+#certificate {
+  position: fixed; inset: 0; z-index: 999;
+  display: flex; align-items: center; justify-content: center;
+  background: #090d13; padding: 20px; overflow-y: auto;
+  transition: opacity 0.7s, visibility 0.7s;
+}
+#certificate.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+ 
+.cert-frame {
+  width: 100%; max-width: 460px;
+  border: 1px solid rgba(212,168,67,0.3); border-radius: 12px;
+  background: linear-gradient(160deg, #141c2b 0%, #0d1117 100%);
+  padding: 36px 24px 28px; position: relative;
+  box-shadow: 0 0 60px rgba(91,141,232,0.1);
+}
+.cert-frame::before { content: ''; position: absolute; inset: 7px; border: 1px solid rgba(212,168,67,0.10); border-radius: 8px; pointer-events: none; }
+ 
+.cert-top-tag { text-align: center; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--t3); margin-bottom: 22px; display: flex; align-items: center; gap: 10px; justify-content: center; }
+.cert-top-tag::before, .cert-top-tag::after { content: ''; flex: 1; max-width: 36px; height: 1px; background: rgba(212,168,67,0.25); }
+ 
+.cert-logo { text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 54px; font-weight: 400; line-height: 1; margin-bottom: 8px; color: var(--t1); }
+.cert-logo span { color: var(--gold); }
+.cert-tagline { text-align: center; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--t3); margin-bottom: 18px; }
+.cert-divider { text-align: center; color: var(--gold); opacity: 0.5; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+.cert-divider::before, .cert-divider::after { content: ''; width: 50px; height: 1px; background: rgba(212,168,67,0.3); }
+.cert-subtitle { text-align: center; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--t3); margin-bottom: 14px; }
+.cert-body { text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; line-height: 1.7; color: var(--t1); margin-bottom: 22px; }
+.cert-body .g { color: var(--gold); }
+.cert-body .b { color: var(--blue); }
+.cert-body .i { font-style: italic; color: var(--blue); }
+.cert-badges { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 20px; }
+.cert-badge { border: 1px solid var(--border); border-radius: 6px; padding: 10px 6px; text-align: center; }
+.cert-badge-label { font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); margin-bottom: 4px; }
+.cert-badge-val { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--gold); }
+.cert-btn { width: 100%; padding: 15px; background: transparent; border: 1px solid var(--gold); color: var(--gold); font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: all 0.2s; margin-bottom: 18px; }
+.cert-btn:active { background: var(--gold); color: var(--bg); }
+.cert-footer { text-align: center; font-size: 10px; color: var(--t3); line-height: 1.9; }
+.cert-footer-bottom { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(212,168,67,0.4); display: flex; justify-content: center; gap: 12px; }
+ 
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 56px; padding: 0 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(13,17,23,0.96);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+}
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: var(--t1); text-decoration: none; }
+.nav-logo span { color: var(--blue); }
+.nav-links { display: none; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-demo-pill { padding: 7px 14px; background: rgba(91,141,232,0.12); border: 1px solid rgba(91,141,232,0.3); color: var(--blue); border-radius: 20px; font-size: 11px; font-weight: 500; text-decoration: none; white-space: nowrap; }
+.hamburger { width: 40px; height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; border-radius: 8px; background: rgba(255,255,255,0.05); }
+.hamburger span { width: 20px; height: 2px; background: var(--t1); border-radius: 2px; transition: all 0.3s; display: block; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+ 
+.mobile-menu {
+  display: none; position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
+  background: rgba(9,13,19,0.99); backdrop-filter: blur(20px);
+  padding: 4px 0 40px; flex-direction: column; z-index: 99; overflow-y: auto;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--t2); text-decoration: none; font-size: 18px; letter-spacing: 0.05em; text-transform: uppercase; padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.mobile-menu a::after { content: '›'; color: var(--t3); font-size: 20px; }
+.mobile-menu a:active { background: rgba(255,255,255,0.03); }
+.mm-demo { color: var(--blue) !important; }
+.mm-cta  { color: var(--gold) !important; }
+ 
+/* ═══════════════════════════════════
+   LAYOUT
+═══════════════════════════════════ */
+section { position: relative; }
+.container { padding: 0 18px; }
+.sec { padding: 56px 0; }
+.sec-alt { padding: 56px 0; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.sec-label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.sec-label::after { content: ''; width: 24px; height: 1px; background: var(--blue); opacity: 0.5; }
+ 
+/* ═══════════════════════════════════
+   TYPOGRAPHY — ALL HEADINGS READABLE
+═══════════════════════════════════ */
+h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 10vw, 56px); font-weight: 300; line-height: 1.1; letter-spacing: -0.02em; color: var(--gold); margin-bottom: 18px; }
+h1 em { font-style: normal; color: var(--gold); }
+h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 8vw, 44px); font-weight: 300; line-height: 1.1; letter-spacing: -0.02em; color: var(--gold); margin-bottom: 14px; }
+h3 { font-size: 15px; font-weight: 500; color: #e8d5a0; margin-bottom: 6px; }
+ 
+/* ═══════════════════════════════════
+   BUTTONS
+═══════════════════════════════════ */
+.btn-blue  { display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 20px;background:rgba(91,141,232,0.12);color:var(--blue);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;border:1px solid rgba(91,141,232,0.35);border-radius:8px;text-decoration:none;transition:all 0.2s; }
+.btn-gold  { display:flex;align-items:center;justify-content:center;padding:16px 20px;background:var(--gold);color:#0d1117;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;border:none;border-radius:8px;text-decoration:none;transition:all 0.2s; }
+.btn-ghost { display:flex;align-items:center;justify-content:center;padding:16px 20px;background:transparent;color:var(--t2);font-family:'DM Sans',sans-serif;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;border:1px solid var(--border);border-radius:8px;text-decoration:none;transition:all 0.2s; }
+.btn-blue:active  { background:rgba(91,141,232,0.25); }
+.btn-gold:active  { background:var(--gold); opacity:0.9; }
+.btn-ghost:active { border-color:rgba(255,255,255,0.2); }
+ 
+/* ═══════════════════════════════════
+   HERO
+═══════════════════════════════════ */
+#hero { min-height: 100svh; display:flex; flex-direction:column; justify-content:center; padding: 80px 18px 60px; }
+.hero-tag { display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);border:1px solid rgba(91,141,232,0.3);padding:7px 12px;border-radius:20px;margin-bottom:22px;width:fit-content; }
+.hero-tag::before { content:'';width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+.hero-sub { font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:32px; }
+.hero-actions { display:flex;flex-direction:column;gap:10px; }
+ 
+/* ═══════════════════════════════════
+   STATS
+═══════════════════════════════════ */
+#stats { background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border); }
+.stats-grid { display:grid;grid-template-columns:1fr 1fr; }
+.stat-item { padding:20px 18px;border-right:1px solid var(--border);border-bottom:1px solid var(--border); }
+.stat-item:nth-child(2),.stat-item:nth-child(4) { border-right:none; }
+.stat-item:nth-child(3),.stat-item:nth-child(4) { border-bottom:none; }
+.stat-num { font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:400;color:var(--gold);line-height:1;margin-bottom:4px; }
+.stat-label { font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--t3);line-height:1.4; }
+ 
+/* ═══════════════════════════════════
+   CARDS (opp / feature / pilot / traction)
+═══════════════════════════════════ */
+.card { padding:20px 18px;border:1px solid var(--border);border-radius:8px;background:var(--card); }
+.card p { font-size:13px;color:var(--t2);line-height:1.7; }
+.card-num { font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--gold);letter-spacing:0.1em;margin-bottom:4px; }
+.card-bar { position:relative;padding-left:14px; }
+.card-bar::before { content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);opacity:0.7;border-radius:2px; }
+ 
+/* Pilot card */
+.pilot-type { font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px; }
+.pilot-type::before { content:'';width:14px;height:1px;background:var(--gold); }
+.pilot-h { font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--gold);margin-bottom:8px;line-height:1.2; }
+.pilot-p { font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:14px; }
+.tags { display:flex;flex-wrap:wrap;gap:6px; }
+.tag { font-size:10px;padding:4px 10px;border:1px solid var(--border);border-radius:20px;color:var(--t3); }
+ 
+/* Feature row */
+.feat-row { display:flex;gap:16px;align-items:flex-start;padding:20px 18px;background:var(--card);border-bottom:1px solid var(--border); }
+.feat-row:last-child { border-bottom:none; }
+.feat-icon { width:40px;height:40px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0; }
+ 
+/* Tech */
+.tech-item { display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid var(--border);border-radius:6px;gap:10px;background:var(--card); }
+.tech-name { font-size:13px;font-weight:500;color:var(--t1); }
+.badge { font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:4px 9px;border-radius:20px;white-space:nowrap; }
+.b-core { background:rgba(91,141,232,0.12);color:var(--blue);border:1px solid rgba(91,141,232,0.3); }
+.b-reg  { background:rgba(212,168,67,0.10);color:var(--gold);border:1px solid rgba(212,168,67,0.3); }
+.b-arch { background:rgba(255,255,255,0.04);color:var(--t3);border:1px solid var(--border); }
+ 
+/* Arch diagram */
+.arch { padding:20px;border:1px solid var(--border);border-radius:8px;background:var(--bg); }
+.arch-title { font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);margin-bottom:14px;text-align:center; }
+.arch-layers { display:flex;flex-direction:column;gap:6px; }
+.a-layer { padding:11px 14px;border-radius:6px;font-size:12px;color:var(--t1);display:flex;align-items:center;gap:10px; }
+.a-blue { background:rgba(91,141,232,0.10);border:1px solid rgba(91,141,232,0.22); }
+.a-gold { background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.20); }
+.a-grey { background:rgba(255,255,255,0.03);border:1px solid var(--border); color:var(--t2); }
+.a-dot { width:6px;height:6px;border-radius:50%;flex-shrink:0; }
+.d-blue { background:var(--blue); }
+.d-gold { background:var(--gold); }
+.d-grey { background:var(--t3); }
+.a-arrow { text-align:center;color:var(--t3);font-size:14px;opacity:0.5; }
+ 
+/* Traction row */
+.tr-item { display:flex;align-items:center;gap:20px;padding:20px 18px;border:1px solid var(--border);border-radius:8px;background:var(--card); }
+.tr-num { font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;flex-shrink:0; }
+.tr-label { font-size:13px;color:var(--t2);line-height:1.5; }
+ 
+/* Raise */
+.raise-row { display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border:1px solid var(--border);border-radius:6px;font-size:13px;gap:12px;background:var(--card); }
+.raise-key { color:var(--t3); }
+.raise-val { color:var(--t1);font-weight:500;text-align:right; }
+.raise-val.hl { color:var(--gold);font-size:16px; }
+.blended { padding:22px;border:1px solid rgba(212,168,67,0.2);border-radius:8px;background:rgba(212,168,67,0.04); }
+.blended h3 { font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);margin-bottom:4px; }
+.blended .sub { font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--t3);margin-bottom:16px; }
+.blend-item { display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--t2);margin-bottom:10px; }
+.blend-item::before { content:'→';color:var(--gold);font-size:11px;margin-top:2px;flex-shrink:0; }
+ 
+/* Team */
+.team-card { display:flex;gap:16px;align-items:flex-start;padding:20px 18px;border:1px solid var(--border);border-radius:8px;background:var(--card); }
+.team-init { width:48px;height:48px;border-radius:50%;background:rgba(91,141,232,0.12);border:1px solid rgba(91,141,232,0.25);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--blue);flex-shrink:0; }
+.team-name { font-size:16px;font-weight:500;color:var(--gold);margin-bottom:2px; }
+.team-role { font-size:10px;color:var(--gold);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px; }
+.team-bio  { font-size:13px;color:var(--t2);line-height:1.6; }
+.cto-box { padding:22px;border:1px dashed rgba(212,168,67,0.3);border-radius:8px;background:rgba(212,168,67,0.03);display:flex;flex-direction:column;gap:16px; }
+.cto-box p { font-size:13px;color:var(--t2);line-height:1.6;margin-top:6px; }
+ 
+/* Contact */
+#contact { padding:56px 0 48px;text-align:center;border-top:1px solid var(--border); }
+#contact p { font-size:15px;color:var(--t2);margin:0 0 28px;line-height:1.8; }
+.contact-actions { display:flex;flex-direction:column;gap:10px; }
+.contact-email { display:inline-block;margin-top:18px;font-size:13px;color:var(--t3);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px; }
+ 
+/* Footer */
+footer { border-top:1px solid var(--border);padding:24px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center; }
+.footer-logo { font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--t2); }
+.footer-logo span { color:var(--blue); }
+.footer-copy { font-size:11px;color:var(--t3); }
+.footer-links { display:flex;gap:20px;list-style:none; }
+.footer-links a { font-size:11px;color:var(--t3);text-decoration:none; }
+ 
+/* Spacing helpers */
+.stack { display:flex;flex-direction:column;gap:12px; }
+.mt16 { margin-top:16px; }
+.mt24 { margin-top:24px; }
+.mb24 { margin-bottom:24px; }
+.mb16 { margin-bottom:16px; }
+ 
+/* ═══════════════════════════════════
+   DESKTOP ≥1024px
+═══════════════════════════════════ */
+@media (min-width:1024px) {
+  .container { max-width:1100px;margin:0 auto;padding:0 40px; }
+  nav { padding:0 40px; }
+  .nav-right { display:none; }
+  .nav-links { display:flex;gap:24px;list-style:none;align-items:center; }
+  .nav-links a { color:var(--t3);text-decoration:none;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s; }
+  .nav-links a:hover { color:var(--t1); }
+  .nav-demo-d { padding:8px 16px;background:rgba(91,141,232,0.12);border:1px solid rgba(91,141,232,0.3);color:var(--blue);border-radius:2px;font-size:11px; }
+  .nav-cta-d { padding:8px 16px;border:1px solid var(--gold);color:var(--gold);border-radius:2px;font-size:11px; }
+  .nav-cta-d:hover { background:var(--gold) !important;color:#0d1117 !important; }
+  #hero { padding:120px 40px 80px;max-width:1100px;margin:0 auto; }
+  .hero-actions { flex-direction:row; }
+  .btn-blue,.btn-gold,.btn-ghost { width:auto;border-radius:2px;padding:14px 28px; }
+  .stats-grid { grid-template-columns:repeat(4,1fr); }
+  .stat-item:nth-child(n) { border-bottom:none;border-right:1px solid var(--border); }
+  .stat-item:last-child { border-right:none; }
+  .two-col { display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start; }
+  .three-col { display:grid;grid-template-columns:repeat(3,1fr);gap:16px; }
+  .feat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden; }
+  .feat-row { border-bottom:none; }
+  .sec,.sec-alt { padding:100px 0; }
+  .cto-box { flex-direction:row;align-items:center;padding:28px 32px; }
+  footer { flex-direction:row;justify-content:space-between;text-align:left;padding:28px 40px; }
+  .contact-actions { flex-direction:row;justify-content:center; }
+  .tr-item { flex-direction:column;align-items:flex-start;gap:8px; }
+}
 </style>
 </head>
 <body>
  
-<!-- CERTIFICATE SPLASH -->
+<!-- CERTIFICATE -->
 <div id="certificate">
   <div class="cert-frame">
     <div class="cert-top-tag">Official Platform Certificate</div>
     <div class="cert-logo">W<span>€</span>spr</div>
-    <div class="cert-tagline">One Identity &nbsp;·&nbsp; One Wallet &nbsp;·&nbsp; One Europe</div>
+    <div class="cert-tagline">One Identity · One Wallet · One Europe</div>
     <div class="cert-divider">◆</div>
     <div class="cert-subtitle">Sovereign Digital Infrastructure</div>
     <div class="cert-body">
-      <span class="hl-gold">W€spr</span> connects<br>
-      <span class="hl-blue">eIDAS 2.0</span>, the <span class="hl-blue">EUDI Wallet</span>,<br>
-      and the <span class="hl-gold">Digital Euro</span><br>
-      into one <span class="hl-italic">sovereign, GDPR-native platform</span> —<br>
+      <span class="g">W€spr</span> connects<br>
+      <span class="b">eIDAS 2.0</span>, the <span class="b">EUDI Wallet</span>,<br>
+      and the <span class="g">Digital Euro</span><br>
+      into one <span class="i">sovereign, GDPR-native platform</span> —<br>
       engineered for the citizens and institutions of Europe.
     </div>
     <div class="cert-badges">
-      <div class="cert-badge">
-        <div class="cert-badge-label">Standard</div>
-        <div class="cert-badge-val">eIDAS 2.0</div>
-      </div>
-      <div class="cert-badge">
-        <div class="cert-badge-label">Wallet</div>
-        <div class="cert-badge-val">EUDI Wallet</div>
-      </div>
-      <div class="cert-badge">
-        <div class="cert-badge-label">Currency</div>
-        <div class="cert-badge-val">Digital Euro</div>
-      </div>
+      <div class="cert-badge"><div class="cert-badge-label">Standard</div><div class="cert-badge-val">eIDAS 2.0</div></div>
+      <div class="cert-badge"><div class="cert-badge-label">Wallet</div><div class="cert-badge-val">EUDI Wallet</div></div>
+      <div class="cert-badge"><div class="cert-badge-label">Currency</div><div class="cert-badge-val">Digital Euro</div></div>
     </div>
-    <button class="cert-enter-btn" onclick="document.getElementById('certificate').classList.add('hidden')">
-      Continue &nbsp;→
-    </button>
-    <div class="cert-footer">
-      wespr.eu &nbsp;·&nbsp; ges@wespr.eu &nbsp;·&nbsp; © 2026 W€spr B.V., Amsterdam
-    </div>
-    <div class="cert-footer-bottom">
-      <span>Sovereign</span>
-      <span>·</span>
-      <span>GDPR-Native</span>
-      <span>·</span>
-      <span>eIDAS Certified</span>
-    </div>
+    <button class="cert-btn" onclick="document.getElementById('certificate').classList.add('hidden')">Continue →</button>
+    <div class="cert-footer">wespr.eu · ges@wespr.eu · © 2026 W€spr B.V., Amsterdam</div>
+    <div class="cert-footer-bottom"><span>Sovereign</span><span>·</span><span>GDPR-Native</span><span>·</span><span>eIDAS Certified</span></div>
   </div>
 </div>
  
@@ -1127,10 +315,24 @@
     <li><a href="#solution">Solution</a></li>
     <li><a href="#pilots">Pilots</a></li>
     <li><a href="#raise">Raise</a></li>
-    <li><a href="https://euro-connect-wallet.replit.app" target="_blank" class="nav-demo">▶ Live Demo</a></li>
-    <li><a href="#contact" class="nav-cta">Investor Deck</a></li>
+    <li><a href="https://euro-connect-wallet.replit.app" target="_blank" class="nav-demo-d">▶ Live Demo</a></li>
+    <li><a href="#contact" class="nav-cta-d">Investor Deck</a></li>
   </ul>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
 </nav>
+ 
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#opportunity" onclick="closeMenu()">Opportunity</a>
+  <a href="#solution" onclick="closeMenu()">Solution</a>
+  <a href="#pilots" onclick="closeMenu()">Pilots</a>
+  <a href="#raise" onclick="closeMenu()">Raise</a>
+  <a href="#team" onclick="closeMenu()">Team</a>
+  <a href="https://euro-connect-wallet.replit.app" target="_blank" class="mm-demo">▶ Live Demo</a>
+  <a href="#contact" onclick="closeMenu()" class="mm-cta">Investor Deck</a>
+</div>
  
 <!-- HERO -->
 <section id="hero">
@@ -1138,220 +340,104 @@
   <h1>The infrastructure layer for <em>European digital identity</em></h1>
   <p class="hero-sub">W€spr connects eIDAS 2.0, the EUDI Wallet, and Digital Euro into one sovereign, GDPR-native platform — enabling governments, banks, and businesses to transact with verifiable trust.</p>
   <div class="hero-actions">
-    <a href="https://euro-connect-wallet.replit.app" target="_blank" class="btn-demo">▶ &nbsp;Live Demo</a>
-    <a href="#contact" class="btn-primary">Request Deck</a>
-    <a href="#solution" class="btn-secondary">How It Works</a>
+    <a href="https://euro-connect-wallet.replit.app" target="_blank" class="btn-blue">▶ Live Demo</a>
+    <a href="#contact" class="btn-gold">Request Deck</a>
+    <a href="#solution" class="btn-ghost">How It Works</a>
   </div>
-  <div class="hero-scroll">Scroll to explore</div>
 </section>
  
 <!-- STATS -->
 <section id="stats">
   <div class="container">
     <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-num">450M+</div>
-        <div class="stat-label">EU citizens in scope</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">2026</div>
-        <div class="stat-label">eIDAS 2.0 mandate deadline</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">€2M</div>
-        <div class="stat-label">Current seed target</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">3 pilots</div>
-        <div class="stat-label">Active LOI discussions</div>
-      </div>
+      <div class="stat-item"><div class="stat-num">450M+</div><div class="stat-label">EU citizens in scope</div></div>
+      <div class="stat-item"><div class="stat-num">2026</div><div class="stat-label">eIDAS 2.0 deadline</div></div>
+      <div class="stat-item"><div class="stat-num">€2M</div><div class="stat-label">Seed target</div></div>
+      <div class="stat-item"><div class="stat-num">3 pilots</div><div class="stat-label">Active LOI discussions</div></div>
     </div>
   </div>
 </section>
  
 <!-- OPPORTUNITY -->
-<section id="opportunity">
+<section id="opportunity" class="sec">
   <div class="container">
-    <div class="opportunity-layout">
-      <div class="opportunity-text reveal">
-        <div class="section-tag">The Opportunity</div>
+    <div class="two-col">
+      <div>
+        <div class="sec-label">The Opportunity</div>
         <h2>Europe is building a new digital foundation</h2>
-        <p>By 2026, every EU member state must provide citizens with a <strong>digital identity wallet</strong> under eIDAS 2.0. The Digital Euro is advancing toward pilot deployment. Yet no unified layer exists to connect identity, payments, and compliance.</p>
-        <p>W€spr fills that gap. We are building the <strong>connective tissue</strong> between the EUDI Wallet ecosystem and real-world transactions — enabling governments and businesses to offer seamless, sovereign digital services at scale.</p>
-        <p>This is not a consumer app. It is <strong>infrastructure</strong>, built to the standards that Europe's digital economy requires.</p>
+        <p style="color:var(--t2);font-size:15px;line-height:1.85;margin-bottom:14px;">By 2026, every EU member state must provide citizens with a <strong style="color:var(--gold);font-weight:400;">digital identity wallet</strong> under eIDAS 2.0. The Digital Euro is advancing toward pilot deployment. Yet no unified layer exists to connect identity, payments, and compliance.</p>
+        <p style="color:var(--t2);font-size:15px;line-height:1.85;margin-bottom:14px;">W€spr fills that gap — building the <strong style="color:var(--gold);font-weight:400;">connective tissue</strong> between the EUDI Wallet ecosystem and real-world transactions.</p>
+        <p style="color:var(--t2);font-size:15px;line-height:1.85;">This is not a consumer app. It is <strong style="color:var(--gold);font-weight:400;">infrastructure</strong>, built to the standards that Europe's digital economy requires.</p>
       </div>
-      <div class="opp-cards reveal">
-        <div class="opp-card">
-          <div class="opp-card-num">01 / Regulation</div>
-          <h3>Mandatory compliance window</h3>
-          <p>EU member states face a hard deadline for eIDAS 2.0 wallet deployment. Compliance requires certified infrastructure providers.</p>
-        </div>
-        <div class="opp-card">
-          <div class="opp-card-num">02 / Market Gap</div>
-          <h3>No sovereign alternative exists</h3>
-          <p>Existing identity and payments solutions rely on US-owned infrastructure. European sovereignty requirements demand a native alternative.</p>
-        </div>
-        <div class="opp-card">
-          <div class="opp-card-num">03 / Timing</div>
-          <h3>First-mover certification advantage</h3>
-          <p>EUDI Wallet certification creates durable barriers to entry. The window to achieve first-mover status closes in 2026.</p>
-        </div>
+      <div class="stack">
+        <div class="card card-bar"><div class="card-num">01 / Regulation</div><h3>Mandatory compliance window</h3><p>EU member states face a hard deadline for eIDAS 2.0 wallet deployment. Compliance requires certified infrastructure providers.</p></div>
+        <div class="card card-bar"><div class="card-num">02 / Market Gap</div><h3>No sovereign alternative exists</h3><p>Existing solutions rely on US-owned infrastructure. European sovereignty requirements demand a native alternative.</p></div>
+        <div class="card card-bar"><div class="card-num">03 / Timing</div><h3>First-mover certification advantage</h3><p>EUDI Wallet certification creates durable barriers to entry. The window closes in 2026.</p></div>
       </div>
     </div>
   </div>
 </section>
  
 <!-- SOLUTION -->
-<section id="solution">
+<section id="solution" class="sec-alt">
   <div class="container">
-    <div class="solution-header reveal">
-      <div class="section-tag">The Product</div>
-      <h2>One identity. One wallet. One Europe.</h2>
-      <p>W€spr is a sovereign super app architecture built on EUDI Wallet and Digital Euro standards. It provides citizens with a unified digital experience, and governments and businesses with a certified, interoperable integration layer.</p>
-    </div>
-    <div class="features-grid reveal">
-      <div class="feature-item">
-        <div class="feature-icon">🪪</div>
-        <h3>EUDI Wallet Integration</h3>
-        <p>Native connection to the European Digital Identity Wallet ecosystem, enabling verifiable credential exchange across all EU member states.</p>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">€</div>
-        <h3>Digital Euro Ready</h3>
-        <p>Designed for seamless Digital Euro integration as the ECB advances toward full deployment, supporting both retail and institutional flows.</p>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">🔒</div>
-        <h3>GDPR-Native Architecture</h3>
-        <p>Privacy-by-design at the infrastructure level. Data minimisation, selective disclosure, and sovereign data residency built in from day one.</p>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">🏛️</div>
-        <h3>Government API Layer</h3>
-        <p>Certified integration endpoints for municipal and national government services — enabling parking permits, benefits, licensing and beyond.</p>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">🛒</div>
-        <h3>Commerce Integration</h3>
-        <p>Verified checkout, digital receipts, and returns automation for e-commerce and retail — powered by identity-verified transactions.</p>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">⚡</div>
-        <h3>PSD2 / SEPA Compliant</h3>
-        <p>Open banking rails and SEPA instant payments integrated from the ground up, enabling compliant cross-border payment flows across the EU.</p>
-      </div>
+    <div class="sec-label">The Product</div>
+    <h2 class="mb16">One identity. One wallet. One Europe.</h2>
+    <p style="color:var(--t2);font-size:15px;line-height:1.8;margin-bottom:28px;max-width:680px;">W€spr is a sovereign super app architecture built on EUDI Wallet and Digital Euro standards — providing citizens, governments and businesses with a certified, interoperable integration layer.</p>
+    <div class="feat-grid stack">
+      <div class="feat-row"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="2" width="14" height="16" rx="2" stroke="#c9a96e" stroke-width="1.5"/><path d="M6 7h8M6 10h8M6 13h5" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round"/></svg></div><div><h3>EUDI Wallet Integration</h3><p style="font-size:13px;color:var(--t2);line-height:1.7;">Native connection to the European Digital Identity Wallet ecosystem, enabling verifiable credential exchange across all EU member states.</p></div></div>
+      <div class="feat-row"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#c9a96e" stroke-width="1.5"/><path d="M7 10h6M10 7v6" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round"/><text x="6.5" y="12" font-size="8" fill="#c9a96e" font-family="serif">€</text></svg></div><div><h3>Digital Euro Ready</h3><p style="font-size:13px;color:var(--t2);line-height:1.7;">Designed for seamless Digital Euro integration as the ECB advances toward full deployment.</p></div></div>
+      <div class="feat-row"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="8" width="12" height="10" rx="2" stroke="#c9a96e" stroke-width="1.5"/><path d="M7 8V6a3 3 0 0 1 6 0v2" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="13" r="1.5" fill="#c9a96e"/></svg></div><div><h3>GDPR-Native Architecture</h3><p style="font-size:13px;color:var(--t2);line-height:1.7;">Privacy-by-design at the infrastructure level. Data minimisation and sovereign data residency built in from day one.</p></div></div>
+      <div class="feat-row"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 6v5c0 4 3.5 6.5 7 7.5 3.5-1 7-3.5 7-7.5V6L10 2z" stroke="#c9a96e" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div><h3>Government API Layer</h3><p style="font-size:13px;color:var(--t2);line-height:1.7;">Certified integration endpoints for municipal and national government services.</p></div></div>
+      <div class="feat-row"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 6h14v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6z" stroke="#c9a96e" stroke-width="1.5"/><path d="M1 6h18M7 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round"/></svg></div><div><h3>Commerce Integration</h3><p style="font-size:13px;color:var(--t2);line-height:1.7;">Verified checkout, digital receipts, and returns automation for e-commerce and retail.</p></div></div>
+      <div class="feat-row"><div class="feat-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v4M10 14v4M2 10h4M14 10h4" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="10" r="3" stroke="#c9a96e" stroke-width="1.5"/></svg></div><div><h3>PSD2 / SEPA Compliant</h3><p style="font-size:13px;color:var(--t2);line-height:1.7;">Open banking rails and SEPA instant payments integrated from the ground up.</p></div></div>
     </div>
   </div>
 </section>
  
 <!-- PILOTS -->
-<section id="pilots">
+<section id="pilots" class="sec">
   <div class="container">
-    <div class="pilots-header reveal">
-      <div class="section-tag">Active Pilots</div>
-      <h2>Three live tracks. Real use cases.</h2>
-      <p>W€spr is pursuing three parallel pilot programmes — one with a forward-thinking Dutch municipality, one with a leading e-commerce retailer, and one with a major hospital — proving the platform across public, commercial, and healthcare contexts.</p>
-    </div>
-    <div class="pilots-grid reveal" style="grid-template-columns: repeat(3, 1fr);">
-      <div class="pilot-card">
-        <div class="pilot-type">Public Sector Track</div>
-        <h3>Gemeente Eindhoven</h3>
-        <p>Piloting digital identity-verified public services with one of the Netherlands' most digitally ambitious municipalities. The initial use case focuses on parking permit issuance via EUDI Wallet credentials.</p>
-        <div class="pilot-use-cases">
-          <span class="use-case-tag">Parking Permits</span>
-          <span class="use-case-tag">EUDI Wallet Auth</span>
-          <span class="use-case-tag">Digital Euro Payment</span>
-          <span class="use-case-tag">GovTech API</span>
-        </div>
-      </div>
-      <div class="pilot-card">
-        <div class="pilot-type">Commercial Track</div>
-        <h3>Coolblue</h3>
-        <p>Integrating W€spr's identity and payments layer into one of the Netherlands' leading e-commerce platforms — targeting verified checkout, automated digital receipts, and frictionless returns.</p>
-        <div class="pilot-use-cases">
-          <span class="use-case-tag">Verified Checkout</span>
-          <span class="use-case-tag">Digital Receipt</span>
-          <span class="use-case-tag">Returns Automation</span>
-          <span class="use-case-tag">PSD2 Integration</span>
-        </div>
-      </div>
-      <div class="pilot-card">
-        <div class="pilot-type">Healthcare Track</div>
-        <h3>HagaZiekenhuis</h3>
-        <p>Piloting a sovereign, identity-verified oncological dossier — enabling patients to share verified medical records securely with specialist teams for second opinion consultations, powered by EUDI Wallet credentials.</p>
-        <div class="pilot-use-cases">
-          <span class="use-case-tag">Oncologisch Dossier</span>
-          <span class="use-case-tag">Second Opinion Flow</span>
-          <span class="use-case-tag">EUDI Wallet Auth</span>
-          <span class="use-case-tag">GDPR-Native Sharing</span>
-        </div>
-      </div>
+    <div class="sec-label">Active Pilots</div>
+    <h2 class="mb16">Three live tracks. Real use cases.</h2>
+    <p style="color:var(--t2);font-size:15px;line-height:1.8;margin-bottom:28px;">W€spr is pursuing three parallel pilot programmes across public, commercial, and healthcare contexts.</p>
+    <div class="stack three-col">
+      <div class="card"><div class="pilot-type">Public Sector Track</div><div class="pilot-h">Gemeente Eindhoven</div><p class="pilot-p">Parking permit issuance via EUDI Wallet credentials — one of the Netherlands' most digitally ambitious municipalities.</p><div class="tags"><span class="tag">Parking Permits</span><span class="tag">EUDI Wallet Auth</span><span class="tag">Digital Euro</span><span class="tag">GovTech API</span></div></div>
+      <div class="card"><div class="pilot-type">Commercial Track</div><div class="pilot-h">Coolblue</div><p class="pilot-p">Verified checkout, automated digital receipts, and frictionless returns — integrating W€spr into a leading Dutch e-commerce platform.</p><div class="tags"><span class="tag">Verified Checkout</span><span class="tag">Digital Receipt</span><span class="tag">Returns Automation</span><span class="tag">PSD2</span></div></div>
+      <div class="card"><div class="pilot-type">Healthcare Track</div><div class="pilot-h">HagaZiekenhuis</div><p class="pilot-p">Sovereign, identity-verified oncological dossier enabling patients to share medical records securely for second opinion consultations.</p><div class="tags"><span class="tag">Oncologisch Dossier</span><span class="tag">Second Opinion</span><span class="tag">EUDI Wallet Auth</span><span class="tag">GDPR-Native</span></div></div>
     </div>
   </div>
 </section>
  
 <!-- TECHNOLOGY -->
-<section id="technology">
+<section id="technology" class="sec-alt">
   <div class="container">
-    <div class="tech-layout">
-      <div class="tech-text reveal">
-        <div class="section-tag">Technology</div>
+    <div class="two-col">
+      <div>
+        <div class="sec-label">Technology</div>
         <h2>Built on European standards</h2>
-        <p>W€spr is architected around the full stack of European digital infrastructure standards — not adapted from consumer technology, but <strong>built natively</strong> for the regulatory and sovereignty requirements of the EU market.</p>
-        <p>Our architecture achieves certification-readiness by design, reducing time-to-compliance for every integration partner.</p>
-        <div class="tech-stack">
-          <div class="tech-item">
-            <span class="tech-item-name">eIDAS 2.0 / EUDI Wallet</span>
-            <span class="tech-item-badge badge-core">Core Standard</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-item-name">Digital Euro (ECB CBDC)</span>
-            <span class="tech-item-badge badge-core">Core Standard</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-item-name">PSD2 / SEPA Instant</span>
-            <span class="tech-item-badge badge-reg">Regulatory</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-item-name">GDPR Article 25 (Privacy by Design)</span>
-            <span class="tech-item-badge badge-reg">Regulatory</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-item-name">OpenID4VP / SD-JWT</span>
-            <span class="tech-item-badge badge-arch">Architecture</span>
-          </div>
+        <p style="color:var(--t2);font-size:15px;line-height:1.85;margin-bottom:14px;">W€spr is architected around the full stack of European digital infrastructure standards — built natively for EU regulatory and sovereignty requirements.</p>
+        <p style="color:var(--t2);font-size:15px;line-height:1.85;">Our architecture achieves certification-readiness by design, reducing time-to-compliance for every integration partner.</p>
+        <div class="stack mt24">
+          <div class="tech-item"><span class="tech-name">eIDAS 2.0 / EUDI Wallet</span><span class="badge b-core">Core Standard</span></div>
+          <div class="tech-item"><span class="tech-name">Digital Euro (ECB CBDC)</span><span class="badge b-core">Core Standard</span></div>
+          <div class="tech-item"><span class="tech-name">PSD2 / SEPA Instant</span><span class="badge b-reg">Regulatory</span></div>
+          <div class="tech-item"><span class="tech-name">GDPR Article 25</span><span class="badge b-reg">Regulatory</span></div>
+          <div class="tech-item"><span class="tech-name">OpenID4VP / SD-JWT</span><span class="badge b-arch">Architecture</span></div>
         </div>
       </div>
-      <div class="arch-diagram reveal">
+      <div class="arch">
         <div class="arch-title">W€spr Platform Architecture</div>
         <div class="arch-layers">
-          <div class="arch-layer layer-top">
-            <span class="layer-dot dot-blue"></span>
-            Consumer & Government Apps
-          </div>
-          <div class="arch-arrow">↓</div>
-          <div class="arch-layer layer-top">
-            <span class="layer-dot dot-blue"></span>
-            W€spr API & Orchestration Layer
-          </div>
-          <div class="arch-arrow">↓</div>
-          <div class="arch-layer layer-mid">
-            <span class="layer-dot dot-gold"></span>
-            EUDI Wallet SDK
-          </div>
-          <div class="arch-layer layer-mid">
-            <span class="layer-dot dot-gold"></span>
-            Digital Euro Payment Rail
-          </div>
-          <div class="arch-layer layer-mid">
-            <span class="layer-dot dot-gold"></span>
-            PSD2 Open Banking Bridge
-          </div>
-          <div class="arch-arrow">↓</div>
-          <div class="arch-layer layer-bot">
-            <span class="layer-dot dot-grey"></span>
-            GDPR-Native Data Layer (EU-only residency)
-          </div>
+          <div class="a-layer a-blue"><span class="a-dot d-blue"></span>Consumer &amp; Government Apps</div>
+          <div class="a-arrow">↓</div>
+          <div class="a-layer a-blue"><span class="a-dot d-blue"></span>W€spr API &amp; Orchestration Layer</div>
+          <div class="a-arrow">↓</div>
+          <div class="a-layer a-gold"><span class="a-dot d-gold"></span>EUDI Wallet SDK</div>
+          <div class="a-layer a-gold"><span class="a-dot d-gold"></span>Digital Euro Payment Rail</div>
+          <div class="a-layer a-gold"><span class="a-dot d-gold"></span>PSD2 Open Banking Bridge</div>
+          <div class="a-arrow">↓</div>
+          <div class="a-layer a-grey"><span class="a-dot d-grey"></span>GDPR-Native Data Layer (EU-only residency)</div>
         </div>
       </div>
     </div>
@@ -1359,110 +445,61 @@
 </section>
  
 <!-- TRACTION -->
-<section id="traction">
+<section id="traction" class="sec">
   <div class="container">
-    <div class="traction-header reveal">
-      <div class="section-tag">Traction</div>
-      <h2>Early validation across sectors</h2>
-      <p>W€spr is pre-revenue and pre-certification, with active pilot discussions underway and a focused go-to-market strategy targeting both public sector and commercial partners.</p>
-    </div>
-    <div class="traction-grid reveal">
-      <div class="traction-item">
-        <div class="traction-num">3</div>
-        <div class="traction-label">Pilot tracks in active LOI discussion (public sector, commercial & healthcare)</div>
-      </div>
-      <div class="traction-item">
-        <div class="traction-num">2026</div>
-        <div class="traction-label">Target for EUDI Wallet certification and first live deployment</div>
-      </div>
-      <div class="traction-item">
-        <div class="traction-num">€2M</div>
-        <div class="traction-label">Seed round target — convertible note structure with blended public finance</div>
-      </div>
+    <div class="sec-label">Traction</div>
+    <h2 class="mb24">Early validation across sectors</h2>
+    <div class="stack three-col">
+      <div class="tr-item"><div class="tr-num">3</div><div class="tr-label">Pilot tracks in active LOI discussion — public sector, commercial &amp; healthcare</div></div>
+      <div class="tr-item"><div class="tr-num">2026</div><div class="tr-label">Target for EUDI Wallet certification and first live deployment</div></div>
+      <div class="tr-item"><div class="tr-num">€2M</div><div class="tr-label">Seed round target — convertible note with blended public finance</div></div>
     </div>
   </div>
 </section>
  
 <!-- RAISE -->
-<section id="raise">
+<section id="raise" class="sec-alt">
   <div class="container">
-    <div class="raise-layout">
-      <div class="raise-text reveal">
-        <div class="section-tag">The Round</div>
+    <div class="two-col">
+      <div>
+        <div class="sec-label">The Round</div>
         <h2>€2M Convertible Note Seed Round</h2>
-        <p>W€spr is raising a €2M seed round via convertible note, structured to leverage a significant blended finance package — combining private capital with non-dilutive European public funding instruments.</p>
-        <div class="raise-details">
-          <div class="raise-row">
-            <span class="raise-row-key">Instrument</span>
-            <span class="raise-row-val">Convertible Note</span>
-          </div>
-          <div class="raise-row">
-            <span class="raise-row-key">Target</span>
-            <span class="raise-row-val highlight">€2,000,000</span>
-          </div>
-          <div class="raise-row">
-            <span class="raise-row-key">Stage</span>
-            <span class="raise-row-val">Seed / Pre-Series A</span>
-          </div>
-          <div class="raise-row">
-            <span class="raise-row-key">Lead Geography</span>
-            <span class="raise-row-val">Netherlands / EU</span>
-          </div>
-          <div class="raise-row">
-            <span class="raise-row-key">Use of Funds</span>
-            <span class="raise-row-val">CTO hire, certification, pilots</span>
-          </div>
+        <p style="color:var(--t2);font-size:15px;line-height:1.85;margin-bottom:20px;">Structured to leverage a significant blended finance package — combining private capital with non-dilutive European public funding instruments.</p>
+        <div class="stack">
+          <div class="raise-row"><span class="raise-key">Instrument</span><span class="raise-val">Convertible Note</span></div>
+          <div class="raise-row"><span class="raise-key">Target</span><span class="raise-val hl">€2,000,000</span></div>
+          <div class="raise-row"><span class="raise-key">Stage</span><span class="raise-val">Seed / Pre-Series A</span></div>
+          <div class="raise-row"><span class="raise-key">Lead Geography</span><span class="raise-val">Netherlands / EU</span></div>
+          <div class="raise-row"><span class="raise-key">Use of Funds</span><span class="raise-val">CTO hire, certification, pilots</span></div>
         </div>
       </div>
-      <div class="blended-box reveal">
+      <div class="blended">
         <h3>Blended Finance Structure</h3>
         <p class="sub">Non-dilutive co-funding instruments</p>
-        <div class="blended-items">
-          <div class="blended-item">WBSO — R&D tax credit (up to €350K)</div>
-          <div class="blended-item">RVO Seed Capital Guarantee</div>
-          <div class="blended-item">EIC Accelerator 2026 (up to €2.5M grant + equity)</div>
-          <div class="blended-item">EUIPO SME Fund — IP protection</div>
-          <div class="blended-item">Horizon Europe / NGI funding exploration</div>
-        </div>
+        <div class="blend-item">WBSO — R&amp;D tax credit (up to €350K)</div>
+        <div class="blend-item">RVO Seed Capital Guarantee</div>
+        <div class="blend-item">EIC Accelerator 2026 (up to €2.5M grant + equity)</div>
+        <div class="blend-item">EUIPO SME Fund — IP protection</div>
+        <div class="blend-item">Horizon Europe / NGI funding exploration</div>
       </div>
     </div>
   </div>
 </section>
  
 <!-- TEAM -->
-<section id="team">
+<section id="team" class="sec">
   <div class="container">
-    <div class="team-header reveal">
-      <div class="section-tag">The Team</div>
-      <h2>Founders with domain depth</h2>
-      <p>The W€spr founding team brings together GovTech strategy, European digital policy expertise, and hands-on product development. We are actively seeking a CTO co-founder with eIDAS/EUDI and PSD2/SEPA experience.</p>
+    <div class="sec-label">The Team</div>
+    <h2 class="mb16">Founders with domain depth</h2>
+    <p style="color:var(--t2);font-size:15px;line-height:1.8;margin-bottom:28px;">Combining GovTech strategy, 40 years of medical expertise, and hands-on product development. Actively seeking a CTO co-founder with eIDAS/EUDI and PSD2/SEPA experience.</p>
+    <div class="stack three-col mb24">
+      <div class="team-card"><div class="team-init">D</div><div><div class="team-name">Daan</div><div class="team-role">Founder &amp; CEO</div><p class="team-bio">Strategy and business development. Commercial partnership and go-to-market expertise across Dutch public and private sector verticals.</p></div></div>
+      <div class="team-card"><div class="team-init">F</div><div><div class="team-name">Frank</div><div class="team-role">Co-Founder</div><p class="team-bio">Medical specialist with 40 years of clinical experience. Deep domain expertise in healthcare data, patient identity, and digital infrastructure.</p></div></div>
+      <div class="team-card"><div class="team-init">B</div><div><div class="team-name">Berend</div><div class="team-role">Co-Founder</div><p class="team-bio">Operations and ecosystem development. Pilot execution, regulatory engagement, and stakeholder management.</p></div></div>
     </div>
-    <div class="team-grid reveal">
-      <div class="team-card">
-        <div class="team-initials">D</div>
-        <div class="team-name">Daan</div>
-        <div class="team-role">Founder & CEO</div>
-        <p class="team-bio">Strategy and business development focus. Brings commercial partnership and go-to-market expertise across Dutch public and private sector verticals.</p>
-      </div>
-      <div class="team-card">
-        <div class="team-initials">F</div>
-        <div class="team-name">Frank</div>
-        <div class="team-role">Co-Founder</div>
-        <p class="team-bio">Medical specialist with 40 years of clinical experience in hospital environments. Deep domain expertise in healthcare data, patient identity, and the intersection of medical practice and digital infrastructure.</p>
-      </div>
-      <div class="team-card">
-        <div class="team-initials">B</div>
-        <div class="team-name">Berend</div>
-        <div class="team-role">Co-Founder</div>
-        <p class="team-bio">Operations and ecosystem development. Supports pilot execution, regulatory engagement, and stakeholder management across the W€spr partner network.</p>
-      </div>
-    </div>
-    <div class="cto-box reveal">
-      <div class="cto-box-text">
-        <h3>CTO Co-Founder — Active Search</h3>
-        <p>We are seeking a technically exceptional CTO with hands-on experience in eIDAS 2.0 / EUDI Wallet standards, PSD2 / SEPA infrastructure, and the ability to lead certification processes. Equity-based, co-founder level.</p>
-      </div>
-      <a href="#contact" class="btn-primary" style="white-space:nowrap">Express Interest</a>
+    <div class="cto-box">
+      <div><h3>CTO Co-Founder — Active Search</h3><p>Seeking a technically exceptional CTO with eIDAS 2.0 / EUDI Wallet, PSD2 / SEPA experience, and the ability to lead certification processes. Equity-based, co-founder level.</p></div>
+      <a href="#contact" class="btn-gold" style="white-space:nowrap;border-radius:8px;">Express Interest</a>
     </div>
   </div>
 </section>
@@ -1470,12 +507,12 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="container">
-    <div class="section-tag" style="justify-content:center; margin-bottom:20px;">Get In Touch</div>
+    <div class="sec-label" style="justify-content:center;margin-bottom:10px;">Get In Touch</div>
     <h2>Ready to explore W€spr?</h2>
-    <p>Request the full investor deck or arrange a conversation with the founding team. We are selective about our early investors and value strategic alignment with European digital sovereignty.</p>
+    <p>Request the full investor deck or arrange a conversation with the founding team.</p>
     <div class="contact-actions">
-      <a href="mailto:ges@wespr.eu" class="btn-primary">Request Investor Deck</a>
-      <a href="mailto:ges@wespr.eu?subject=CTO%20Interest" class="btn-secondary">CTO Co-Founder Enquiry</a>
+      <a href="mailto:ges@wespr.eu" class="btn-gold">Request Investor Deck</a>
+      <a href="mailto:ges@wespr.eu?subject=CTO%20Interest" class="btn-ghost">CTO Co-Founder Enquiry</a>
     </div>
     <a href="mailto:ges@wespr.eu" class="contact-email">ges@wespr.eu</a>
   </div>
@@ -1484,27 +521,28 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">W<span>€</span>spr</div>
-  <span class="footer-copy">© 2026 W€spr. Amsterdam, Netherlands.</span>
-  <ul class="footer-links">
-    <li><a href="#">Privacy</a></li>
-    <li><a href="#">eIDAS Compliance</a></li>
-    <li><a href="mailto:ges@wespr.eu">Contact</a></li>
-  </ul>
+  <span class="footer-copy">© 2026 W€spr B.V., Amsterdam</span>
+  <ul class="footer-links"><li><a href="#">Privacy</a></li><li><a href="#">eIDAS</a></li><li><a href="mailto:ges@wespr.eu">Contact</a></li></ul>
 </footer>
  
 <script>
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
- 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  function toggleMenu() {
+    const m = document.getElementById('mobileMenu');
+    const h = document.getElementById('hamburger');
+    const open = m.classList.toggle('open');
+    h.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('click', e => {
+    const m = document.getElementById('mobileMenu');
+    const h = document.getElementById('hamburger');
+    if (m.classList.contains('open') && !m.contains(e.target) && !h.contains(e.target)) closeMenu();
+  });
 </script>
 </body>
-</html>
 </html>
