@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W€spr — YouTube Intro Animatic</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117;
+  --gold: #c9a96e;
+  --blue: #5b8de8;
+  --green: #3fb950;
+  --text: #cdd9e5;
+  --muted: #8b99a8;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; background: #000; font-family: 'DM Sans', sans-serif; overflow: hidden; }
+ 
+/* ═══ STAGE ═══ */
+#stage {
+  width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  background: var(--bg);
+  overflow: hidden;
+}
+ 
+/* ═══ SCENE WRAPPER ═══ */
+.scene {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.8s ease;
+  padding: 40px;
+}
+.scene.active { opacity: 1; pointer-events: all; }
+ 
+/* ═══ PROGRESS BAR ═══ */
+#progress-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 3px; background: rgba(255,255,255,0.1); z-index: 100;
+}
+#progress-fill {
+  height: 100%; background: var(--gold);
+  transition: width 0.5s ease;
+}
+ 
+/* ═══ CONTROLS ═══ */
+#controls {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 16px; z-index: 100;
+  background: rgba(13,17,23,0.9); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 40px; padding: 10px 20px;
+  backdrop-filter: blur(12px);
+}
+.ctrl-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05);
+  color: var(--text); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.ctrl-btn:hover { background: rgba(201,169,110,0.2); border-color: var(--gold); }
+#scene-label { font-size: 12px; color: var(--muted); letter-spacing: 0.1em; min-width: 120px; text-align: center; }
+#play-btn { width: 48px; height: 48px; background: var(--gold); border: none; color: #0d1117; font-size: 18px; }
+#play-btn:hover { background: #e4c97a; }
+ 
+/* ═══ SCENE 1 — OPENING ═══ */
+#s1 { background: radial-gradient(ellipse at 50% 40%, #0d1a30 0%, #0d1117 70%); }
+.stars { position: absolute; inset: 0; }
+.star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: white; animation: twinkle 3s infinite; }
+@keyframes twinkle { 0%,100%{opacity:0.3} 50%{opacity:1} }
+.s1-logo { font-family: 'Cormorant Garamond', serif; font-size: clamp(60px,10vw,120px); font-weight: 300; color: var(--gold); text-align: center; animation: s1fade 2s ease forwards; }
+@keyframes s1fade { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+.s1-sub { font-size: clamp(12px,2vw,18px); letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-top: 16px; animation: s1fade 2s 0.5s ease forwards; opacity: 0; }
+.s1-tagline { font-size: clamp(14px,2.5vw,22px); color: var(--text); margin-top: 32px; font-style: italic; text-align: center; max-width: 600px; animation: s1fade 2s 1s ease forwards; opacity: 0; }
+.eu-ring { width: clamp(80px,12vw,140px); height: clamp(80px,12vw,140px); border-radius: 50%; border: 2px solid rgba(91,141,232,0.3); display: flex; align-items: center; justify-content: center; margin-bottom: 32px; position: relative; animation: s1fade 2s ease forwards; }
+.eu-ring::before { content: ''; position: absolute; inset: -8px; border-radius: 50%; border: 1px solid rgba(91,141,232,0.1); }
+.eu-stars { font-size: clamp(18px,3vw,32px); }
+ 
+/* ═══ SCENE 2 — PROBLEEM ═══ */
+#s2 { background: linear-gradient(135deg, #0d1117 0%, #1a0a0a 100%); }
+.problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 600px; margin-bottom: 40px; }
+.app-card { padding: 16px; border: 1px solid rgba(255,0,0,0.2); border-radius: 8px; background: rgba(255,0,0,0.05); text-align: center; }
+.app-card .app-icon { font-size: 24px; margin-bottom: 8px; }
+.app-card .app-name { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.app-card .app-pw { font-size: 9px; color: rgba(255,80,80,0.7); margin-top: 4px; }
+.problem-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(20px,3.5vw,36px); color: var(--text); text-align: center; max-width: 700px; line-height: 1.4; }
+.problem-text em { color: rgba(255,80,80,0.8); font-style: normal; }
+ 
+/* ═══ SCENE 3 — OPLOSSING ═══ */
+#s3 { background: radial-gradient(ellipse at 50% 50%, #0d1a30 0%, #0d1117 70%); }
+.phone-mockup { width: clamp(160px,25vw,240px); height: clamp(320px,50vw,480px); border: 2px solid rgba(255,255,255,0.2); border-radius: 32px; background: #060a10; position: relative; overflow: hidden; box-shadow: 0 0 60px rgba(91,141,232,0.3); flex-shrink: 0; }
+.phone-screen { position: absolute; inset: 4px; border-radius: 28px; background: #0d1a30; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+.eudi-badge { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #1a2a4a, #0d1a30); border: 2px solid rgba(201,169,110,0.4); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+.eudi-badge-inner { font-size: 28px; }
+.eudi-label { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+.eudi-name { font-size: 14px; color: white; font-weight: 500; margin-bottom: 16px; }
+.face-scan { width: 60px; height: 60px; border: 2px solid var(--green); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; }
+.face-scan::before { content: ''; position: absolute; inset: -6px; border: 1px solid rgba(63,185,80,0.3); border-radius: 12px; animation: scanpulse 1.5s infinite; }
+@keyframes scanpulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.05)} }
+.face-scan-icon { font-size: 24px; }
+.scan-status { font-size: 9px; color: var(--green); margin-top: 8px; letter-spacing: 0.1em; }
+.s3-text { margin-left: clamp(20px,4vw,60px); max-width: 400px; }
+.s3-row { display: flex; align-items: center; gap: clamp(20px,4vw,60px); }
+ 
+/* ═══ SCENE 4 — ZIEKENHUIS ═══ */
+#s4 { background: linear-gradient(135deg, #0d1117 0%, #0a1a14 100%); }
+.scenario-header { text-align: center; margin-bottom: 40px; }
+.scenario-tag { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.scenario-tag::before { content: ''; width: 20px; height: 1px; background: var(--green); }
+.scenario-tag::after { content: ''; width: 20px; height: 1px; background: var(--green); }
+.nfc-demo { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.nfc-phone { width: 100px; height: 180px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: 16px; background: #0d1a30; display: flex; align-items: center; justify-content: center; font-size: 32px; position: relative; }
+.nfc-waves { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.nfc-wave { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(91,141,232,0.6); animation: nfcwave 1.5s infinite; }
+.nfc-wave:nth-child(2) { width: 60px; height: 60px; animation-delay: 0.2s; }
+.nfc-wave:nth-child(3) { width: 80px; height: 80px; animation-delay: 0.4s; }
+@keyframes nfcwave { 0%{opacity:0.8;transform:scale(0.8)} 100%{opacity:0;transform:scale(1.2)} }
+.nfc-terminal { width: 100px; height: 140px; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 12px; background: #161b22; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.nfc-terminal-label { font-size: 9px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.nfc-ok { color: var(--green); font-size: 28px; }
+ 
+/* ═══ SCENE 5 — GEMEENTE ═══ */
+#s5 { background: linear-gradient(135deg, #0d1117 0%, #0a100d 100%); }
+.timer-demo { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.timer-circle { width: clamp(100px,15vw,160px); height: clamp(100px,15vw,160px); border-radius: 50%; border: 3px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.timer-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px,6vw,72px); color: var(--gold); line-height: 1; }
+.timer-sub { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.flow-steps { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.flow-step { padding: 10px 16px; border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 6px; font-size: 12px; color: var(--text); text-align: center; background: rgba(255,255,255,0.03); }
+.flow-step.done { border-color: var(--green); color: var(--green); }
+.flow-arrow { color: var(--muted); font-size: 16px; }
+ 
+/* ═══ SCENE 6 — COOLBLUE ═══ */
+#s6 { background: linear-gradient(135deg, #0d1117 0%, #0a0d1a 100%); }
+.payment-demo { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.pay-amount { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px,8vw,96px); color: var(--gold); }
+.pay-label { font-size: 11px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-top: -16px; }
+.pay-status { display: flex; align-items: center; gap: 10px; padding: 12px 24px; border: 1px solid rgba(63,185,80,0.3); border-radius: 30px; background: rgba(63,185,80,0.08); }
+.pay-status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.pay-status-text { font-size: 13px; color: var(--green); }
+.pay-receipt { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+ 
+/* ═══ SCENE 7 — BOUWSTENEN ═══ */
+#s7 { background: var(--bg); }
+.blocks-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 600px; width: 100%; }
+.block { padding: clamp(16px,3vw,28px); border-radius: 10px; border: 1px solid; position: relative; overflow: hidden; }
+.block-pay   { border-color: rgba(201,169,110,0.4); background: rgba(201,169,110,0.06); }
+.block-conn  { border-color: rgba(91,141,232,0.4);  background: rgba(91,141,232,0.06); }
+.block-serv  { border-color: rgba(63,185,80,0.4);   background: rgba(63,185,80,0.06); }
+.block-mini  { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.03); }
+.block-icon  { font-size: clamp(20px,3vw,28px); margin-bottom: 8px; }
+.block-title { font-size: clamp(12px,1.8vw,16px); font-weight: 500; color: white; margin-bottom: 4px; }
+.block-desc  { font-size: clamp(10px,1.4vw,12px); color: var(--muted); line-height: 1.5; }
+.block-badge { position: absolute; top: 10px; right: 10px; font-size: 8px; padding: 3px 8px; border-radius: 20px; }
+.badge-gold  { background: rgba(201,169,110,0.15); color: var(--gold); border: 1px solid rgba(201,169,110,0.3); }
+.badge-blue  { background: rgba(91,141,232,0.15);  color: var(--blue); border: 1px solid rgba(91,141,232,0.3); }
+.badge-green { background: rgba(63,185,80,0.12);   color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+.badge-open  { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid rgba(255,255,255,0.15); }
+ 
+/* ═══ SCENE 8 — AFSLUITING ═══ */
+#s8 { background: radial-gradient(ellipse at 50% 40%, #0d1a30 0%, #0d1117 70%); }
+.outro-logo { font-family: 'Cormorant Garamond', serif; font-size: clamp(56px,9vw,110px); font-weight: 300; color: var(--gold); text-align: center; }
+.outro-tagline { font-size: clamp(14px,2.5vw,24px); color: var(--text); text-align: center; margin-top: 12px; font-style: italic; }
+.outro-links { display: flex; gap: 24px; margin-top: 32px; flex-wrap: wrap; justify-content: center; }
+.outro-link { padding: 12px 24px; border-radius: 4px; font-size: clamp(11px,1.5vw,14px); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; }
+.ol-primary { background: var(--gold); color: #0d1117; }
+.ol-secondary { border: 1px solid rgba(91,141,232,0.4); color: var(--blue); }
+.outro-standards { display: flex; gap: 16px; margin-top: 24px; flex-wrap: wrap; justify-content: center; }
+.std-badge { font-size: 10px; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: var(--muted); letter-spacing: 0.1em; }
+ 
+/* ═══ SCENE TITLE OVERLAY ═══ */
+.scene-title-bar {
+  position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+  background: rgba(13,17,23,0.8); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 30px; padding: 6px 20px;
+  display: flex; align-items: center; gap: 10px;
+  backdrop-filter: blur(8px);
+}
+.scene-num { font-size: 10px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; }
+.scene-sep { color: rgba(255,255,255,0.2); }
+.scene-name { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+.scene-time { font-size: 10px; color: var(--blue); }
+ 
+/* shared */
+.sec-tag { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; justify-content: center; }
+.sec-tag::before, .sec-tag::after { content: ''; width: 20px; height: 1px; }
+.tag-gold { color: var(--gold); }
+.tag-gold::before, .tag-gold::after { background: var(--gold); opacity: 0.4; }
+.tag-blue { color: var(--blue); }
+.tag-blue::before, .tag-blue::after { background: var(--blue); opacity: 0.4; }
+.tag-green { color: var(--green); }
+.tag-green::before, .tag-green::after { background: var(--green); opacity: 0.4; }
+.scene-h { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px,4.5vw,52px); font-weight: 300; color: var(--gold); text-align: center; margin-bottom: 8px; line-height: 1.2; }
+.scene-p { font-size: clamp(13px,1.8vw,17px); color: var(--muted); text-align: center; max-width: 560px; line-height: 1.7; margin-bottom: 32px; }
+.vo-box { background: rgba(91,141,232,0.06); border: 1px solid rgba(91,141,232,0.2); border-left: 3px solid var(--blue); border-radius: 6px; padding: 14px 18px; max-width: 600px; margin-top: 20px; }
+.vo-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+.vo-text { font-size: clamp(12px,1.6vw,15px); color: var(--text); line-height: 1.6; font-style: italic; }
+</style>
+</head>
+<body>
+<div id="stage">
+ 
+  <!-- SCENE 1 -->
+  <div class="scene active" id="s1">
+    <div class="stars" id="stars"></div>
+    <div class="scene-title-bar"><span class="scene-num">Scène 1</span><span class="scene-sep">·</span><span class="scene-name">Opening</span><span class="scene-sep">·</span><span class="scene-time">0:00 – 0:25</span></div>
+    <div class="eu-ring"><div class="eu-stars">⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐</div></div>
+    <div class="s1-logo">W<span style="color:#c9a96e">€</span>spr</div>
+    <div class="s1-sub">De Europese Super App</div>
+    <div class="s1-tagline">"Europa. 450 miljoen mensen. Elk met een eigen verhaal, een eigen identiteit, een eigen leven."</div>
+  </div>
+ 
+  <!-- SCENE 2 -->
+  <div class="scene" id="s2">
+    <div class="scene-title-bar"><span class="scene-num">Scène 2</span><span class="scene-sep">·</span><span class="scene-name">Het Probleem</span><span class="scene-sep">·</span><span class="scene-time">0:25 – 0:55</span></div>
+    <div class="sec-tag tag-gold">Het Probleem</div>
+    <div class="scene-h">Gefragmenteerde digitale wereld</div>
+    <div class="problem-grid">
+      <div class="app-card"><div class="app-icon">🏦</div><div class="app-name">DigiD</div><div class="app-pw">Wachtwoord #1</div></div>
+      <div class="app-card"><div class="app-icon">🏥</div><div class="app-name">MijnGezondheid</div><div class="app-pw">Wachtwoord #2</div></div>
+      <div class="app-card"><div class="app-icon">🏛️</div><div class="app-name">Gemeente</div><div class="app-pw">Wachtwoord #3</div></div>
+      <div class="app-card"><div class="app-icon">🛒</div><div class="app-name">Coolblue</div><div class="app-pw">Wachtwoord #4</div></div>
+      <div class="app-card"><div class="app-icon">✈️</div><div class="app-name">Reizen</div><div class="app-pw">Wachtwoord #5</div></div>
+      <div class="app-card"><div class="app-icon">💼</div><div class="app-name">Werk</div><div class="app-pw">Wachtwoord #6</div></div>
+    </div>
+    <div class="vo-box"><div class="vo-label">Voice-over Sofia</div><div class="vo-text">"Elke dienst vraagt een wachtwoord. Uw identiteit verspreid over tientallen systemen — geen van allen met elkaar verbonden."</div></div>
+  </div>
+ 
+  <!-- SCENE 3 -->
+  <div class="scene" id="s3">
+    <div class="scene-title-bar"><span class="scene-num">Scène 3</span><span class="scene-sep">·</span><span class="scene-name">De Oplossing</span><span class="scene-sep">·</span><span class="scene-time">0:55 – 1:20</span></div>
+    <div class="sec-tag tag-gold">De Oplossing</div>
+    <div class="s3-row">
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div class="eudi-badge"><div class="eudi-badge-inner">🇪🇺</div></div>
+          <div class="eudi-label">EUDI Wallet</div>
+          <div class="eudi-name">Sofia Martens</div>
+          <div class="face-scan"><div class="face-scan-icon">😊</div></div>
+          <div class="scan-status">✓ Identiteit bevestigd</div>
+        </div>
+      </div>
+      <div class="s3-text">
+        <div class="scene-h" style="text-align:left;font-size:clamp(22px,3.5vw,44px)">Maak kennis met W€spr</div>
+        <p style="color:var(--muted);font-size:clamp(13px,1.6vw,16px);line-height:1.7;margin-bottom:20px;">2× klikken op aan/uit-knop. Face ID. Uw EUDI Wallet opent — identiteitskaart én betaalkaart in één.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);"><span style="color:var(--green)">✓</span> Geen wachtwoord</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);"><span style="color:var(--green)">✓</span> eIDAS 2.0 gecertificeerd</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);"><span style="color:var(--green)">✓</span> GDPR-native</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);"><span style="color:var(--green)">✓</span> Door u gecontroleerd</div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- SCENE 4 -->
+  <div class="scene" id="s4">
+    <div class="scene-title-bar"><span class="scene-num">Scène 4</span><span class="scene-sep">·</span><span class="scene-name">Ziekenhuis</span><span class="scene-sep">·</span><span class="scene-time">1:20 – 1:55</span></div>
+    <div class="sec-tag tag-green">Use Case — Healthcare</div>
+    <div class="scene-h">HagaZiekenhuis</div>
+    <p class="scene-p">Oncologisch dossier voor second opinion — één tik, volledig veilig.</p>
+    <div class="nfc-demo">
+      <div class="nfc-phone">📱</div>
+      <div class="nfc-waves">
+        <div class="nfc-wave"></div>
+        <div class="nfc-wave"></div>
+        <div class="nfc-wave"></div>
+      </div>
+      <div class="nfc-terminal">
+        <div class="nfc-terminal-label">HagaZiekenhuis</div>
+        <div class="nfc-ok">✓</div>
+        <div style="font-size:9px;color:var(--green);text-align:center;letter-spacing:0.05em;">Dossier ontvangen</div>
+      </div>
+    </div>
+    <div class="vo-box"><div class="vo-label">Voice-over</div><div class="vo-text">"Uw EUDI Wallet deelt exact wat gevraagd wordt — niet meer, niet minder. GDPR-native, door u gecontroleerd."</div></div>
+  </div>
+ 
+  <!-- SCENE 5 -->
+  <div class="scene" id="s5">
+    <div class="scene-title-bar"><span class="scene-num">Scène 5</span><span class="scene-sep">·</span><span class="scene-name">Gemeente Eindhoven</span><span class="scene-sep">·</span><span class="scene-time">1:55 – 2:20</span></div>
+    <div class="sec-tag tag-blue">Use Case — Overheid</div>
+    <div class="scene-h">Gemeente Eindhoven</div>
+    <p class="scene-p">Parkeervergunning aanvragen. Geen formulieren, geen balie.</p>
+    <div class="timer-demo">
+      <div class="timer-circle">
+        <div class="timer-num" id="timer-num">30</div>
+        <div class="timer-sub">seconden</div>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step done">EUDI Wallet ✓</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step done">ID verificatie ✓</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step done">Digitale Euro ✓</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step done">Vergunning ✓</div>
+      </div>
+    </div>
+    <div class="vo-box"><div class="vo-label">Voice-over</div><div class="vo-text">"Verified by eIDAS 2.0. Betaald met de Digitale Euro. Klaar in 30 seconden."</div></div>
+  </div>
+ 
+  <!-- SCENE 6 -->
+  <div class="scene" id="s6">
+    <div class="scene-title-bar"><span class="scene-num">Scène 6</span><span class="scene-sep">·</span><span class="scene-name">Coolblue</span><span class="scene-sep">·</span><span class="scene-time">2:20 – 2:45</span></div>
+    <div class="sec-tag tag-gold">Use Case — Commerce</div>
+    <div class="scene-h">Coolblue — W€spr Pay</div>
+    <div class="payment-demo">
+      <div class="pay-amount">€ 249,—</div>
+      <div class="pay-label">W€spr Pay · Digitale Euro · SEPA Instant</div>
+      <div class="pay-status">
+        <div class="pay-status-dot"></div>
+        <div class="pay-status-text">Betaling goedgekeurd</div>
+      </div>
+      <div class="pay-receipt">📄 Digitale bon opgeslagen in W€spr Wallet</div>
+    </div>
+    <div class="vo-box"><div class="vo-label">Voice-over</div><div class="vo-text">"W€spr Pay. Gebaseerd op PSD2 en SEPA Instant. Veilig, snel, Europees. Bliep — klaar."</div></div>
+  </div>
+ 
+  <!-- SCENE 7 -->
+  <div class="scene" id="s7">
+    <div class="scene-title-bar"><span class="scene-num">Scène 7</span><span class="scene-sep">·</span><span class="scene-name">Platform</span><span class="scene-sep">·</span><span class="scene-time">2:45 – 3:05</span></div>
+    <div class="sec-tag tag-gold">De Vier Bouwstenen</div>
+    <div class="scene-h">W€spr Platform</div>
+    <div class="blocks-grid">
+      <div class="block block-pay"><span class="block-badge badge-gold">Core</span><div class="block-icon">💳</div><div class="block-title">W€spr Pay</div><div class="block-desc">Digitale Euro, SEPA Instant, PSD2. Betalen zonder wachtwoord.</div></div>
+      <div class="block block-conn"><span class="block-badge badge-blue">Core</span><div class="block-icon">🔗</div><div class="block-title">W€spr Connect</div><div class="block-desc">EUDI Wallet integratie, NFC, identity layer voor elke dienst.</div></div>
+      <div class="block block-serv"><span class="block-badge badge-green">Core</span><div class="block-icon">⚙️</div><div class="block-title">W€spr Services</div><div class="block-desc">Overheid, zorg, commerce — gecertificeerde API's.</div></div>
+      <div class="block block-mini"><span class="block-badge badge-open">Open</span><div class="block-icon">🧩</div><div class="block-title">Miniprogramma's</div><div class="block-desc">Open ecosystem — bouw uw eigen dienst op W€spr fundament.</div></div>
+    </div>
+  </div>
+ 
+  <!-- SCENE 8 -->
+  <div class="scene" id="s8">
+    <div class="scene-title-bar"><span class="scene-num">Scène 8</span><span class="scene-sep">·</span><span class="scene-name">Afsluiting</span><span class="scene-sep">·</span><span class="scene-time">3:05 – 3:30</span></div>
+    <div class="outro-logo">W<span>€</span>spr</div>
+    <div class="outro-tagline">"Eén identiteit. Één wallet. Één Europa."</div>
+    <p style="color:var(--muted);font-size:clamp(13px,1.8vw,16px);margin-top:8px;text-align:center;">Uw hele leven, in één app.</p>
+    <div class="outro-links">
+      <a href="https://wespr.eu" target="_blank" class="outro-link ol-primary">wespr.eu</a>
+      <a href="https://euro-connect-wallet.replit.app" target="_blank" class="outro-link ol-secondary">▶ Live Demo</a>
+    </div>
+    <div class="outro-standards">
+      <span class="std-badge">eIDAS 2.0</span>
+      <span class="std-badge">EUDI Wallet</span>
+      <span class="std-badge">Digitale Euro</span>
+      <span class="std-badge">GDPR-Native</span>
+      <span class="std-badge">PSD2 / SEPA</span>
+    </div>
+  </div>
+ 
+</div>
+ 
+<!-- PROGRESS -->
+<div id="progress-bar"><div id="progress-fill" style="width:12.5%"></div></div>
+ 
+<!-- CONTROLS -->
+<div id="controls">
+  <button class="ctrl-btn" onclick="prevScene()">‹</button>
+  <span id="scene-label">Scène 1 van 8</span>
+  <button class="ctrl-btn" id="play-btn" onclick="toggleAuto()">▶</button>
+  <button class="ctrl-btn" onclick="nextScene()">›</button>
+</div>
+ 
+<script>
+const scenes = ['s1','s2','s3','s4','s5','s6','s7','s8'];
+const sceneNames = ['Opening','Probleem','Oplossing','Ziekenhuis','Gemeente','Coolblue','Platform','Afsluiting'];
+let current = 0;
+let autoPlay = false;
+let autoTimer = null;
+ 
+// Generate stars for scene 1
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*3}s;opacity:${Math.random()*0.6+0.2}`;
+  starsEl.appendChild(s);
+}
+ 
+function showScene(n) {
+  if (n < 0 || n >= scenes.length) return;
+  document.getElementById(scenes[current]).classList.remove('active');
+  current = n;
+  document.getElementById(scenes[current]).classList.add('active');
+  document.getElementById('scene-label').textContent = `Scène ${current+1} van 8`;
+  document.getElementById('progress-fill').style.width = `${(current+1)/scenes.length*100}%`;
+}
+ 
+function nextScene() {
+  if (current < scenes.length - 1) showScene(current + 1);
+  else { stopAuto(); }
+}
+ 
+function prevScene() { showScene(current > 0 ? current - 1 : 0); }
+ 
+function toggleAuto() {
+  autoPlay = !autoPlay;
+  document.getElementById('play-btn').textContent = autoPlay ? '⏸' : '▶';
+  if (autoPlay) autoTimer = setInterval(() => { if (current < scenes.length - 1) nextScene(); else stopAuto(); }, 5000);
+  else clearInterval(autoTimer);
+}
+ 
+function stopAuto() {
+  autoPlay = false;
+  clearInterval(autoTimer);
+  document.getElementById('play-btn').textContent = '▶';
+}
+ 
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextScene(); }
+  if (e.key === 'ArrowLeft') prevScene();
+  if (e.key === 'p' || e.key === 'P') toggleAuto();
+});
+ 
+// Touch swipe
+let touchX = 0;
+document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 50) { dx < 0 ? nextScene() : prevScene(); }
+});
+</script>
+</body>
+</html>
