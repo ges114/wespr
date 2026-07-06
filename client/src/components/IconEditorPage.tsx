@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Euro, Stethoscope, Train, ShoppingBag, MessageCircle, CreditCard, Landmark, Heart, Globe, Music, Gamepad2, Zap, Check, Move, ArrowLeft, type LucideIcon } from "lucide-react";
-import heroImage from "@/assets/images/hero-lifestyle.jpg";
+const heroImage = "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80";
 
 const iconMap: Record<string, LucideIcon> = {
   Betalen: Euro, Gezondheid: Stethoscope, Vervoer: Train, Berichten: MessageCircle,
