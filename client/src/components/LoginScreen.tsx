@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Eye, EyeOff, ArrowRight, ArrowLeft, Mail, Shield, Euro, Stethoscope, Train, ShoppingBag, MessageCircle, CreditCard, Landmark, Heart, Globe, Music, Gamepad2, Zap, CheckCircle2, Loader2, Fingerprint, X } from "lucide-react";
-import heroImage from "@/assets/images/hero-lifestyle.jpg";
+const heroImage = "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80";
 import auraLogo from "@/assets/images/aura-logo.png";
 
 const serviceIcons = [
